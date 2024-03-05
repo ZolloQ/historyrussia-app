@@ -1,0 +1,29 @@
+.head {
+	position: relative;
+	max-height: 130px;
+	border-radius: 19px;
+}
+
+.card {
+	background: var(--white-color);
+	border-radius: 19px;
+	box-shadow: 18.21428680419922px 18.21428680419922px 36.42857360839844px 0px rgba(211, 209, 216, 0.25);
+	width: 320px;
+}
+
+.footer {
+	padding: 12px;
+}
+
+.title {
+	color: var(--main-color);
+	font-size: 18.214px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+
+.link {
+	text-decoration: none;
+}
+

@@ -1,11 +1,12 @@
 .header {
-	position: absolute;
-	background: transparent;
-	width: 100%;
+	position: fixed;
+	margin-top: 0;
+	width: 100vw;
+	background-color: #222;
 	display: flex;
-	height: 70px;
-	align-items: center;
 	justify-content: space-between;
+	align-items: center;
+	z-index: 10;
 	
 	&__logo {
 		margin-left: 30px;
@@ -17,7 +18,7 @@
 		position: relative;
 		display: flex;
 		align-items: center;
-		color: #222;
+		color: white;
 		font-size: 20px;
 		text-decoration: none;
 		margin-right: 30px;
