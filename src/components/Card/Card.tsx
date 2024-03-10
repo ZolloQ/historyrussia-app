@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import styles from './Card.module.css';
 import { CardProps } from './Card.props';
 
-function ProductCard(props: CardProps) {
+function Card(props: CardProps) {
 	return (
-		<Link to={`/product/${props.id}`} className={styles['link']}>
+		<Link to={`/card/${props.id}`} className={styles['link']}>
 			<div className={styles['card']}>
 				<div className={styles['head']} style={{ backgroundImage: `url('${props.image}')` }}>
 					<div className={styles['class']}>
@@ -19,4 +19,4 @@ function ProductCard(props: CardProps) {
 	);
 }
 
-export default ProductCard;
+export default Card;

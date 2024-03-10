@@ -1,0 +1,52 @@
+.header {
+  position: fixed;
+  margin-top: 0;
+  width: 100vw;
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+.header__logo {
+  margin-left: 30px;
+  height: 70px;
+  width: 70px;
+}
+.header__auth {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  margin-right: 30px;
+  cursor: pointer;
+  gap: 10px;
+  transition: color 0.3s ease;
+}
+.header__auth:hover {
+  color: var(--main-color);
+}
+.header__auth:hover svg path, .header__auth:hover svg rect {
+  stroke: var(--main-color);
+}
+.header__auth::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ffcc00;
+  transition: width 0.3s, background-color 0.3s;
+}
+.header__auth:hover::before {
+  width: 100%;
+  background-color: var(--main-color);
+}
+.header__auth img svg {
+  fill: var(--main-color);
+}
+
+/*# sourceMappingURL=Header.module.css.map */

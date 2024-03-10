@@ -26,6 +26,11 @@
 		gap: 10px;
 		transition: color 0.3s ease;
 		&:hover{
+			svg{
+				path, rect{
+					stroke: var(--main-color);
+				}
+			}
 			color: var(--main-color);
 		}
 		

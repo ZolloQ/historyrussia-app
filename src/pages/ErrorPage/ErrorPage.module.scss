@@ -1,0 +1,33 @@
+.error {
+	background-color: #222222;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	&__title {
+		font-size: 24px;
+		margin-bottom: 16px;
+	}
+	&__content {
+		font-size: 18px;
+		text-align: center;
+	}
+	&__logo{
+		width: 100px;
+		height: 100px;
+	}
+	&__link{
+		color: white;
+		text-decoration: none;
+		font-size: 18px;
+		font-weight: 400;
+		transition: color 0.5s ease;
+		&:hover{
+			color: var(--main-color);
+		}
+	}
+}
+
+

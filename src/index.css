@@ -1,0 +1,15 @@
+:root {
+  --main-color: crimson;
+  --white-color: #ffffff;
+}
+
+body, html {
+  overflow-x: hidden;
+  margin: 0;
+  font-family: "Merriweather", sans-serif;
+  line-height: 1.7;
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
+}
+
+/*# sourceMappingURL=index.css.map */

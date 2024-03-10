@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
+import KnowledgePage from './pages/KnowledgePage/KnowledgePage.tsx'
 import MainPage from './pages/MainPage/MainPage.tsx'
-
 
 const router = createBrowserRouter([
   {
@@ -13,13 +13,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/card/:id',
-        element: <MainPage/>
+        element: <KnowledgePage/>
       }
     ]
   },
-  
-  
-  
   {
     path: '*',
     element: <ErrorPage/>
