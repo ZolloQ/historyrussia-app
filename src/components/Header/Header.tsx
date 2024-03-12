@@ -6,7 +6,7 @@ const Header = () => {
 	return (
 		<header className={styles['header']}>
 			<img src='/logo.png' alt='logo' className={styles['header__logo']} />
-			<NavLink to='/Login' className={styles['header__auth']}>
+			<NavLink to='/auth/login' className={styles['header__auth']}>
 				<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<rect x="5.18024" y="1" width="6.63833" height="8.41108" rx="3.31917" stroke="#fff" strokeWidth="2" />
 					<path

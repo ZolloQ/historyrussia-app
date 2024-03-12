@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
 			<div className={styles['hero__text']}>
 				<h1 className={styles['hero__text-title']}>HistoRus</h1>
 				<h2 className={styles['hero__text-subtitle']}>ваш проводник в увлекательном путешествии по истории России</h2>
-				<a className={styles['hero__text-link']} href="/">
+				<a className={styles['hero__text-link']} href="#Main">
 					<svg
 						clipRule="evenodd"
 						fillRule="evenodd"
