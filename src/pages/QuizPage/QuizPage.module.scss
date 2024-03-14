@@ -1,42 +1,14 @@
-/* quizPageStyles.css */
-.container {
-	max-width: 600px;
-	margin: 0 auto;
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+.quiz-page{
+	background-color: #222222;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
 }
-
-h2 {
-	text-align: center;
-}
-
-h3 {
-	margin-bottom: 10px;
-}
-
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-li {
-	margin-bottom: 10px;
-}
-
-button {
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-button:hover {
-	background-color: #0056b3;
-}
-
-input[type="radio"] {
-	margin-right: 5px;
+.quiz {
+	width: 500px;
+	border-radius: 30px;
+	padding: 40px;
+	background-color: #fff;
+	position: relative;
 }
