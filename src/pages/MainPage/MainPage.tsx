@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import About from '../../components/About/About.tsx'
 import Card from '../../components/Card/Card.tsx';
 import Hero from '../../components/Hero/Hero.tsx';
 import Search from '../../components/Search/Search.tsx';
@@ -11,13 +12,13 @@ const MainPage = () => {
 	const allCards = [
 		{
 			id: 1,
-			name: "История России",
+			name: "Киевская Русь",
 			class: "8 класс",
 			image: "Led-min.jpg"
 		},
 		{
 			id: 2,
-			name: "Первая мировая война",
+			name: "Возникновение и объединение",
 			class: "8 класс",
 			image: "Led-min.jpg"
 		},
@@ -57,8 +58,9 @@ const MainPage = () => {
 			<MainLayout>
 				<Hero />
 				<div className={styles['container']}>
+					<About/>
 					<Search
-						className={styles.search}
+						className={styles['search']}
 						placeholder='Введите название темы'
 						onChange={e => setSearchQuery(e.target.value)}
 					/>

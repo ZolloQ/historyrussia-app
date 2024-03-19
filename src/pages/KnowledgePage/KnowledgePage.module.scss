@@ -1,3 +1,33 @@
-.ButtonQuiz{
-	background-color: #222222;
+.KnowledgePage {
+	&__container {
+		max-width: 1000px;
+		margin: 0 auto;
+		display: grid;
+		justify-content: center;
+		padding-top: 100px;
+		
+	}
+	&__title {
+		font-size: 40px;
+		font-weight: 700;
+		text-align: center;
+	}
+	
+	&__MainImage {
+		border-radius: 20px;
+		min-height: 300px;
+		max-height: 540px;
+	}
+	
+	&__MainImage + figcaption {
+		color: #999;
+		margin-left: 10px;
+	}
+	&__button{
+		background-color: #222222;
+		margin-top: 50px;
+		&:hover{
+			background-color: #444444;
+		}
+	}
 }

@@ -1,0 +1,26 @@
+.quiz .result {
+  text-align: center;
+}
+.quiz .result button {
+  border-radius: 30px;
+  border: 0;
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #f00067;
+  color: #fff;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 300px;
+  transition: color background-color 0.5s ease;
+}
+.quiz .result button:hover {
+  background-color: #363434;
+}
+.quiz .result h2 {
+  margin-bottom: 0;
+}
+.quiz .result img {
+  width: 150px;
+}
+
+/*# sourceMappingURL=Result.module.css.map */

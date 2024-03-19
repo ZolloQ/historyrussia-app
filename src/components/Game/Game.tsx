@@ -1,4 +1,3 @@
-// Game.tsx
 import type { Question } from '../../interfaces/Quiz.interfaces.ts'
 import styles from './Game.module.scss'
 

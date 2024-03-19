@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 150px;
 }
 
 .search {
+  max-width: 1700px;
   margin-bottom: 20px;
 }
 
@@ -13,7 +13,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px;
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 

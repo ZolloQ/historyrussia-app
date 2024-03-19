@@ -1,10 +1,7 @@
 .quiz {
 	.result {
 		text-align: center;
-		
 		button {
-			font-weight: bold;
-			font-family: 'Nunito', sans-serif;
 			border-radius: 30px;
 			border: 0;
 			padding: 15px 30px;
@@ -13,6 +10,11 @@
 			color: #fff;
 			margin-top: 20px;
 			cursor: pointer;
+			width: 300px;
+			transition:color background-color 0.5s ease;
+			&:hover{
+				background-color: #363434 ;
+			}
 		}
 		h2 {
 			margin-bottom: 0;

@@ -1,0 +1,18 @@
+.about {
+  background-color: #222222;
+  color: white;
+  max-width: 1300px;
+  margin-top: 100px;
+  border-radius: 20px;
+  text-align: center;
+}
+.about__title {
+  font-size: 25px;
+  font-weight: 700;
+}
+.about__text {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/*# sourceMappingURL=About.module.css.map */

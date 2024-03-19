@@ -1,0 +1,56 @@
+.quiz .progress {
+  height: 10px;
+  border-radius: 30px;
+  background-color: rgb(232, 232, 232);
+  margin-bottom: 25px;
+}
+.quiz .progress__inner {
+  height: 100%;
+  border-radius: 30px;
+  width: 80%;
+  background: rgb(18, 231, 48);
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(90deg, rgb(18, 231, 48) 0%, rgb(0, 212, 255) 100%);
+}
+.quiz:before, .quiz:after {
+  content: "";
+  display: block;
+  height: 50px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.quiz:before {
+  width: 95%;
+  bottom: -10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 0;
+}
+.quiz:after {
+  width: 90%;
+  bottom: -20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+.quiz h1 {
+  margin: 0;
+}
+.quiz ul {
+  list-style: none;
+  padding: 0;
+}
+.quiz ul li {
+  padding: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.quiz ul li:hover {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+/*# sourceMappingURL=Game.module.css.map */
