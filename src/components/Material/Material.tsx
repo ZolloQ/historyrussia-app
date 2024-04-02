@@ -1,9 +1,10 @@
+import ImageSlider from '../ImageSlider/ImageSlider';
 import styles from './Material.module.scss';
-import { ChapterProps } from './Material.props.ts';
+import { ChapterProps } from './Material.props';
 
 function Material(props: { chapters?: ChapterProps[] }) {
 	if (!props.chapters || props.chapters.length === 0) {
-		return null; // Ранний выход, если chapters не определено или пусто
+		return null; 
 	}
 	
 	return (
@@ -12,11 +13,9 @@ function Material(props: { chapters?: ChapterProps[] }) {
 				<article key={index}>
 					<h2 className={styles['material__subtitle']}>{chapter.subtitle}</h2>
 					<div className={styles['material__text']}>{chapter.text}</div>
-					<div className={styles['material__wrapper']}>
-						{chapter.image && (
-								<img src={chapter.image} className={styles['material__image']} />
-						)}
-					</div>
+					{chapter.image && (
+						<ImageSlider images={chapter.image} />
+					)}
 				</article>
 			))}
 		</div>

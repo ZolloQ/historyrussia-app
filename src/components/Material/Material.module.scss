@@ -35,20 +35,49 @@
 	&__wrapper {
 		display: flex;
 		justify-content: center;
-		gap: 20px;
-		width: 1000px;
-		max-height: 540px;
 		margin: 0 auto;
 	}
 	
 	&__image {
 		border-radius: 20px;
 		width: 100%;
-		max-height: 540px;
+		max-height: 510px;
 		max-width: 100%;
+		display: block;
+		&:only-child{
+			width: 100%;
+		}
+		&-slider-container {
+			position: relative;
+			margin: 0 auto;
+		}
+	}
+	&__prev-btn,
+	&__next-btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 60px;
+		color: #000000;
+		transition: opacity 0.3s ease;
+		z-index: 1;
+	}
+	&__prev-btn {
+		left: 0;
 	}
 	
-	&__image:only-child {
-		width: 100%;
+	&__next-btn {
+		right: 0;
 	}
+	
+	&__image-slider {
+		position: relative;
+	}
+	
+	
 }
+
+

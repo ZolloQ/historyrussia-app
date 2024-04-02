@@ -1,3 +1,6 @@
+.quiz {
+  text-align: center;
+}
 .quiz .progress {
   height: 10px;
   border-radius: 30px;
@@ -11,6 +14,14 @@
   background: rgb(18, 231, 48);
   transition: all 0.3s ease-in-out;
   background: linear-gradient(90deg, rgb(18, 231, 48) 0%, rgb(0, 212, 255) 100%);
+}
+.quiz .progress__label {
+  margin-top: 5px;
+  font-size: 14px;
+  text-align: right;
+}
+.quiz .button {
+  background-color: #222222;
 }
 .quiz:before, .quiz:after {
   content: "";
@@ -48,6 +59,12 @@
   margin-bottom: 10px;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
+}
+.quiz ul li.correct {
+  background-color: rgba(18, 231, 48, 0.2);
+}
+.quiz ul li.incorrect {
+  background-color: rgba(255, 0, 0, 0.2);
 }
 .quiz ul li:hover {
   border: 2px solid rgba(0, 0, 0, 0.3);

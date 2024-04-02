@@ -1,5 +1,7 @@
-import type { Question } from '../../interfaces/Quiz.interfaces.ts'
-import styles from './Game.module.scss'
+import { useState } from 'react';
+import type { Question } from '../../interfaces/Quiz.interfaces.ts';
+import Button from '../Button/Button.tsx'
+import styles from './Game.module.scss';
 
 function Game({ question, onClickVariant, step, totalQuestions }: {
 	question: Question;
@@ -7,19 +9,53 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 	step: number;
 	totalQuestions: number;
 }) {
+	const [selectedVariant, setSelectedVariant] = useState<number | null>(null);
+	const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
+	
+	const handleVariantClick = (index: number) => {
+		if (selectedVariant === null) {
+			setSelectedVariant(index);
+			if (index !== question.correct) {
+				setCorrectAnswer(question.correct);
+			}
+		}
+	};
+	
+	const handleNextQuestion = () => {
+		if (selectedVariant !== null) {
+			onClickVariant(selectedVariant);
+			setSelectedVariant(null);
+			setCorrectAnswer(null);
+		}
+	};
+	
 	return (
 		<div className={styles['quiz']}>
 			<div className={styles['progress']}>
 				<div style={{ width: `${Math.round((step * 100) / totalQuestions)}%` }} className={styles['progress__inner']}></div>
+				<div className={styles['progress__label']}>{step + 1} из {totalQuestions}</div>
 			</div>
+			
 			<h1>{question.title}</h1>
 			<ul>
 				{question.variants.map((text, index) => (
-					<li key={index} onClick={() => onClickVariant(index)}>
+					<li
+						key={index}
+						onClick={() => handleVariantClick(index)}
+						className={`
+              ${styles['variant']}
+              ${selectedVariant === index ? (index === question.correct ? styles['correct'] : styles['incorrect']) : ''}
+              ${correctAnswer !== null && correctAnswer === index ? styles['correct'] : ''}
+            `}
+					>
 						{text}
 					</li>
 				))}
 			</ul>
+			
+			{selectedVariant !== null && (
+				<Button onClick={handleNextQuestion} appearence={'big'} className={styles['button']}>Следующий вопрос</Button>
+			)}
 		</div>
 	);
 }

@@ -30,19 +30,42 @@
 .material__wrapper {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  width: 1000px;
-  max-height: 540px;
   margin: 0 auto;
 }
 .material__image {
   border-radius: 20px;
   width: 100%;
-  max-height: 540px;
+  max-height: 510px;
   max-width: 100%;
+  display: block;
 }
 .material__image:only-child {
   width: 100%;
+}
+.material__image-slider-container {
+  position: relative;
+  margin: 0 auto;
+}
+.material__prev-btn, .material__next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 60px;
+  color: #000000;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.material__prev-btn {
+  left: 0;
+}
+.material__next-btn {
+  right: 0;
+}
+.material__image-slider {
+  position: relative;
 }
 
 /*# sourceMappingURL=Material.module.css.map */

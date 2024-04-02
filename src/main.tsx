@@ -10,6 +10,8 @@ import QuizPage from './pages/QuizPage/QuizPage.tsx'
 import Register from './pages/Register/Register.tsx'
 
 
+
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/card/:id/quiz',
-    element: <QuizPage />
+    element: <QuizPage />,
   },
   {
     path: '/auth/login',

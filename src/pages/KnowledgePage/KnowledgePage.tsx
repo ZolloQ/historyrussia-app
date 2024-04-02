@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../components/Button/Button.tsx'
 import Material from '../../components/Material/Material';
@@ -24,7 +25,7 @@ const KnowledgePage = () => {
 							Угроза Константинополю была в конечном итоге устранена мирными переговорами, которые принесли свои плоды в русско-византийском договоре 907 года. В соответствии с договором византийцы платили дань в размере двенадцати гривен за каждую русскую лодку.
 						</>
 					),
-					image: ["../../russia-vizantia.jpg"]
+					image: ["/russia-vizantia.jpg"]
 				},
 				{
 					subtitle: "ПРИГЛАШЕНИЕ ВАРЯГОВ",
@@ -33,7 +34,7 @@ const KnowledgePage = () => {
 							Согласно <span title='Первая русская летопись называется «Повесть временных лет». Она была написана в 1110-1118 годах в Киеве. Она описывает события за большой период времени. '>«Первой летописи»</span>, территории восточных славян в IX веке были поделены между варягами и хазарами.Первое упоминание о варягах, облагавших данью славянские и финские племена, относится к 859 году. В 862 году финские и славянские племена в районе Новгорода восстали против варягов, отогнав их «обратно за море и, отказавшись от дальнейшей дани, отправились на управлять собой».Однако у племен не было законов, и вскоре они начали воевать друг с другом, что побудило их снова пригласить варягов, чтобы они правили ими и установили мир в регионе:Они сказали себе: «Давайте искать князя, который мог бы править нами и судить нас по закону».Соответственно они ушли за море в Варяжскую Русь.… Чудь, славяне, кривичи и весь сказали тогда Руси: «Велика и богата земля наша, а порядка в ней нет. Приходите править и царствовать над нами».Таким образом, они выбрали трех братьев с их родственниками, которые взяли с собой всю Русь и переселились.Три брата — Рюрик, Синеус и Трувор — обосновались соответственно в Новгороде, Белоозере и Изборске.Двое из братьев умерли, и Рюрик стал единоличным правителем территории и родоначальником династии Рюриковичей.
 						</>
 					),
-					image: ["../../vasnetsov_varyagi-min.jpg"]
+					image: ["/vasnetsov_varyagi-min.jpg", '/Pskov_Veche_Vasnetsov.jpg']
 				}
 			]
 		},
@@ -66,6 +67,31 @@ const KnowledgePage = () => {
 	if (!material) {
 		return <div>Материал не найден</div>;
 	}
+	const [showScrollButton, setShowScrollButton] = useState(false);
+	
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.pageYOffset > 100) {
+				setShowScrollButton(true);
+			} else {
+				setShowScrollButton(false);
+			}
+		};
+		
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+	
+	const scrollUpRef = useRef<HTMLDivElement>(null);
+	
+	const handleScrollUp = () => {
+		if (scrollUpRef.current) {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}
+	};
 	
 	return (
 		<MainLayout>
@@ -77,6 +103,23 @@ const KnowledgePage = () => {
 				/>
 				<Button onClick={HandleQuiz} appearence={'big'} className={styles['KnowledgePage__button']}>Перейти к викторине</Button>
 			</div>
+			{showScrollButton && (
+				<div
+					ref={scrollUpRef}
+					className={styles['scrollUp']}
+					onClick={handleScrollUp}
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+					>
+						<path d="M0 0h24v24H0z" fill="none" />
+						<path d="M12 8l-6 6h12z" />
+					</svg>
+				</div>
+			)}
 		</MainLayout>
 	);
 };
