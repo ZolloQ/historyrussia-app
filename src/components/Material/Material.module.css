@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .material__subtitle {
   text-align: center;
   font-size: 30px;
@@ -33,14 +34,13 @@
   margin: 0 auto;
 }
 .material__image {
+  position: relative; /* Добавлено */
   border-radius: 20px;
   width: 100%;
   max-height: 510px;
   max-width: 100%;
   display: block;
-}
-.material__image:only-child {
-  width: 100%;
+  margin: 0 auto; /* Центрирование изображения */
 }
 .material__image-slider-container {
   position: relative;
@@ -50,19 +50,21 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
   font-size: 60px;
   color: #000000;
   transition: opacity 0.3s ease;
   z-index: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 .material__prev-btn {
   left: 0;
+  margin-left: -50px; /* Отступ слева для выравнивания */
 }
 .material__next-btn {
   right: 0;
+  margin-right: -50px; /* Отступ справа для выравнивания */
 }
 .material__image-slider {
   position: relative;
