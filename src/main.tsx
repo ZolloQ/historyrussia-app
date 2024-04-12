@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
@@ -8,6 +9,7 @@ import Login from './pages/Login/Login.tsx'
 import MainPage from './pages/MainPage/MainPage.tsx'
 import QuizPage from './pages/QuizPage/QuizPage.tsx'
 import Register from './pages/Register/Register.tsx'
+import store from './redux/store.ts'
 
 
 
@@ -26,11 +28,11 @@ const router = createBrowserRouter([
     element: <QuizPage />,
   },
   {
-    path: '/auth/login',
+    path: '/auth',
     element: <Login />
   },
   {
-    path: '/auth/register',
+    path: '/auth/signUp',
     element: <Register />
   },
   {
@@ -41,6 +43,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router}/>
+    </Provider>
   </React.StrictMode>,
 )

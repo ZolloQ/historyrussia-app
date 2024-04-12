@@ -6,6 +6,31 @@ import MainLayout from '../../layout/Main/Layout';
 import styles from './KnowledgePage.module.scss';
 
 const KnowledgePage = () => {
+	const [showScrollButton, setShowScrollButton] = useState(false);
+	
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.pageYOffset > 100) {
+				setShowScrollButton(true);
+			} else {
+				setShowScrollButton(false);
+			}
+		};
+		
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+	
+	const scrollUpRef = useRef<HTMLDivElement>(null);
+	
+	const handleScrollUp = () => {
+		if (scrollUpRef.current) {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}
+	};
 	const materialData = [
 		{
 			id: 1,
@@ -67,38 +92,14 @@ const KnowledgePage = () => {
 	if (!material) {
 		return <div>Материал не найден</div>;
 	}
-	const [showScrollButton, setShowScrollButton] = useState(false);
 	
-	useEffect(() => {
-		const handleScroll = () => {
-			if (window.pageYOffset > 100) {
-				setShowScrollButton(true);
-			} else {
-				setShowScrollButton(false);
-			}
-		};
-		
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
 	
-	const scrollUpRef = useRef<HTMLDivElement>(null);
-	
-	const handleScrollUp = () => {
-		if (scrollUpRef.current) {
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			});
-		}
-	};
 	
 	return (
 		<MainLayout>
 			<div className={styles['KnowledgePage__container']}>
 				<h1 className={styles['KnowledgePage__title']}>{material.title}</h1>
 				<Material
-					id={material.id}
 					chapters={material.chapters}
 				/>
 				<Button onClick={HandleQuiz} appearence={'big'} className={styles['KnowledgePage__button']}>Перейти к викторине</Button>
