@@ -8,7 +8,7 @@ const Header = () => {
 		<header className={styles.header}>
 			<NavLink to='/'><img src='/logo.png' alt='logo' className={styles['header__logo']} /></NavLink>
 			{userRole === 'teacher' && (
-				<NavLink to='/create-card' className={styles['header__action']}>
+				<NavLink to='/createCard' className={styles['header__action']}>
 					Создать карточку темы
 				</NavLink>
 			)}

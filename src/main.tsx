@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
+import CreateCard from './pages/CreateCard/CreateCard.tsx'
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
 import KnowledgePage from './pages/KnowledgePage/KnowledgePage.tsx'
 import Login from './pages/Login/Login.tsx'
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <ErrorPage />
+  },
+  {
+    path: '/createCard',
+    element: <CreateCard />
   }
 ]);
 

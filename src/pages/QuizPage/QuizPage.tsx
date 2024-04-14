@@ -23,7 +23,7 @@ function QuizPage() {
 	}, [id, localCards]);
 	
 	const onClickVariant = (index: number) => {
-		const question = card?.questions[step];
+		const question = card?.quiz[step];
 		if (question) {
 			if (index === question.correct) {
 				setCorrect(corrects + 1);
@@ -34,7 +34,7 @@ function QuizPage() {
 	
 	if (!card) return <div>Loading...</div>;
 	
-	const questions = card.questions;
+	const questions = card.quiz;
 	const question = questions[step];
 	
 	return (

@@ -6,9 +6,9 @@ function Card(props: CardProps) {
 	return (
 		<Link to={`/card/${props.id}`} className={styles['link']}>
 			<div className={styles['card']}>
-				<div className={styles['head']} style={{ backgroundImage: `url('${props.image}')` }}>
+				<div className={styles['head']} style={{ backgroundImage: `url('${props.picture}')` }}>
 					<div className={styles['class']}>
-						{props.class}&nbsp;
+						{props.grade}&nbsp;
 					</div>
 				</div>
 				<div className={styles['footer']}>

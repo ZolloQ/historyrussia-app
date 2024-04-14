@@ -3,7 +3,7 @@ import type { Card } from '../../../interfaces/Quiz.interfaces.ts'
 const localCards: { [key: string]: Card } = {
 	"1": {
 		id: 1,
-		questions: [
+		quiz: [
 			{
 				"title": "Что представляла собой Киевская Русь?",
 				"variants": ["Государство", "Империя", "Княжество", "Королевство"],
@@ -33,7 +33,7 @@ const localCards: { [key: string]: Card } = {
 	},
 	"2": {
 		id: 2,
-		questions: [
+		quiz: [
 			{
 				"title": "Какой город стал первой столицей Киевской Руси?",
 				"variants": ["Новгород", "Переяславль", "Смоленск", "Киев"],

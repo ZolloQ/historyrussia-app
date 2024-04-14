@@ -6,5 +6,5 @@ export interface Question {
 
 export interface Card {
 	id: number;
-	questions: Question[];
+	quiz: Question[];
 }

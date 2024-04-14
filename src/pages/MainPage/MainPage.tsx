@@ -13,38 +13,38 @@ const MainPage = () => {
 		{
 			id: 1,
 			name: "Киевская Русь",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		{
 			id: 2,
 			name: "Возникновение и объединение",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		{
 			id: 3,
 			name: "Крещение Руси",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		{
 			id: 4,
 			name: "Революция",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		{
 			id: 5,
 			name: "СССР",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		{
 			id: 6,
 			name: "Великая Отечественная война",
-			class: "8 класс",
-			image: "Led-min.jpg"
+			grade: "8 класс",
+			picture: "Led-min.jpg"
 		},
 		
 	];
@@ -70,8 +70,8 @@ const MainPage = () => {
 								key={card.id}
 								id={card.id}
 								name={card.name}
-								class={card.class}
-								image={card.image}
+								grade={card.grade}
+								picture={card.picture}
 							/>
 						))}
 					</div>
