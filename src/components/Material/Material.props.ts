@@ -6,6 +6,6 @@ export interface MaterialProps {
 
 export interface ChapterProps {
 	subtitle: string;
-	text: React.ReactNode;
+	text: string;
 	image?: string[];
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Card.module.css';
-import { CardProps } from './Card.props';
+import type { CardProps } from './Card.props.ts'
 
 function Card(props: CardProps) {
 	return (
