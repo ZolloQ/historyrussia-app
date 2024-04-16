@@ -1,50 +1,99 @@
-@charset "UTF-8";
 .container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Размещаем содержимое по центру по вертикали */
-  justify-content: center; /* Размещаем содержимое по центру по горизонтали */
-  height: 100vh; /* Высота контейнера равна высоте видимой области окна браузера */
+  align-items: center;
 }
 
-.form div {
-  margin-bottom: 10px;
+.step {
+  width: 80%;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-input[type=text],
-select {
+.input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
 }
 
-button[type=submit] {
+.textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.fileInput {
+  display: none;
+}
+
+.button {
   padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-button[type=submit]:hover {
+.button:hover {
   background-color: #0056b3;
+}
+
+.fileInputLabel {
+  display: block;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.previewImage {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.separator {
+  width: 100%;
+  margin: 20px 0;
+  border-top: 1px solid #ccc;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 /*# sourceMappingURL=CreateCard.module.css.map */

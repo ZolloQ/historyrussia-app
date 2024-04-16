@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import type { CardProps } from '../../components/Card/Card.props.ts'
-import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props.ts'
-import type { Card, Question } from '../../interfaces/Quiz.interfaces.ts'
+import { useState } from 'react';
+import styles from './CreateCard.module.scss';
+import type { CardProps } from '../../components/Card/Card.props.ts';
+import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props.ts';
+import type { Card, Question } from '../../interfaces/Quiz.interfaces.ts';
 
 const CreateCard: React.FC = () => {
 	const [step, setStep] = useState<number>(1);
@@ -87,58 +88,74 @@ const CreateCard: React.FC = () => {
 	};
 	
 	return (
-		<div>
+		<div className={styles.container}>
 			{step === 1 && (
-				<div>
-					<h2>Step 1: Card Properties</h2>
-					<input type="text" placeholder="ID" value={cardProps.id} onChange={(e) => setCardProps({ ...cardProps, id: parseInt(e.target.value) })} />
-					<input type="text" placeholder="Name" value={cardProps.name} onChange={(e) => setCardProps({ ...cardProps, name: e.target.value })} />
-					<input type='number' placeholder='Grade' value={cardProps.grade} onChange={(e) => setCardProps({ ...cardProps, grade: e.target.value })} min={9} max={11} />
-					<input type="file" onChange={(e) => setCardProps({ ...cardProps, picture: URL.createObjectURL(e.target.files![0]) })} />
-					<button onClick={handleCardPropsSubmit}>Continue</button>
+				<div className={styles.step}>
+					<h2>Шаг 1: Свойства карточки</h2>
+					<input type="text" placeholder="ID" value={cardProps.id} onChange={(e) => setCardProps({ ...cardProps, id: parseInt(e.target.value) })} className={styles.input} />
+					<input type="text" placeholder="Название темы" value={cardProps.name} onChange={(e) => setCardProps({ ...cardProps, name: e.target.value })} className={styles.input} />
+					<input type='number' placeholder='Класс' value={cardProps.grade} onChange={(e) => setCardProps({ ...cardProps, grade: e.target.value })} min={9} max={11} className={styles.input} />
+					<label className={styles.fileInputLabel}>
+						Добавить картинку
+						<input type="file" onChange={(e) => setCardProps({ ...cardProps, picture: URL.createObjectURL(e.target.files![0]) })} className={styles.fileInput} />
+					</label>
+					{cardProps.picture && (
+						<img src={cardProps.picture} alt="Preview" className={styles.previewImage} />
+					)}
+					<div className={styles.buttonContainer}>
+						<button onClick={handleCardPropsSubmit} className={styles.button}>Продолжить</button>
+					</div>
 				</div>
 			)}
 			
 			{step === 2 && (
-				<div>
-					<h2>Step 2: Material Properties</h2>
-					<input type="text" placeholder="Material ID" value={materialProps.id} onChange={(e) => setMaterialProps({ ...materialProps, id: parseInt(e.target.value) })} />
-					<input type="text" placeholder="Material Title" value={materialProps.title} onChange={(e) => setMaterialProps({ ...materialProps, title: e.target.value })} />
+				<div className={styles.step}>
+					<h2>Шаг 2: Свойства материала</h2>
+					<input type="text" placeholder="ID материала" value={materialProps.id} onChange={(e) => setMaterialProps({ ...materialProps, id: parseInt(e.target.value) })} className={styles.input} />
+					<input type="text" placeholder="Название материала" value={materialProps.title} onChange={(e) => setMaterialProps({ ...materialProps, title: e.target.value })} className={styles.input} />
 					{chapters.map((chapter, index) => (
 						<div key={index}>
-							<input type="text" placeholder="Chapter Subtitle" value={chapter.subtitle} onChange={(e) => handleChapterChange(index, 'subtitle', e.target.value)} />
-							<textarea placeholder="Chapter Text" value={chapter.text} onChange={(e) => handleChapterChange(index, 'text', e.target.value)} />
-							<input type="file" onChange={(e) => handleImageUpload(index, e.target.files)} multiple />
-							{chapterImages[index].map((image, imgIndex) => (
-								<img key={imgIndex} src={image} alt={`Chapter ${index + 1} Image ${imgIndex + 1}`} style={{ maxWidth: '100px', maxHeight: '100px' }} />
-							))}
+							<input type="text" placeholder="Подзаголовок главы" value={chapter.subtitle} onChange={(e) => handleChapterChange(index, 'subtitle', e.target.value)} className={styles.input} />
+							<textarea placeholder="Текст главы" value={chapter.text} onChange={(e) => handleChapterChange(index, 'text', e.target.value)} className={styles.textarea} />
+							<label className={styles.fileInputLabel}>
+								Добавить картинку
+								<input type="file" onChange={(e) => handleImageUpload(index, e.target.files)} multiple className={styles.fileInput} />
+							</label>
+							<div className={styles.imagesContainer}>
+								{chapterImages[index].map((image, imgIndex) => (
+									<img key={imgIndex} src={image} alt={`Chapter ${index + 1} Image ${imgIndex + 1}`} className={styles.image} />
+								))}
+							</div>
 						</div>
 					))}
-					<button onClick={handleChapterAdd}>Add Chapter</button>
-					<button onClick={handleMaterialPropsSubmit}>Continue</button>
+					<button onClick={handleChapterAdd} className={styles.button}>Добавить подглаву</button>
+					<button onClick={handleMaterialPropsSubmit} className={styles.button}>Продолжить</button>
 				</div>
 			)}
 			
 			{step === 3 && (
-				<div>
-					<h2>Step 3: Quiz</h2>
-					<input type="text" placeholder="Question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+				<div className={styles.step}>
+					<h2>Шаг 3: Викторина</h2>
+					<input type="text" placeholder="Введите вопрос" value={question} onChange={(e) => setQuestion(e.target.value)} className={styles.input} />
 					{variants.map((variant, index) => (
 						<div key={index}>
-							<input type="text" placeholder="Variant" value={variant} onChange={(e) => handleVariantChange(index, e.target.value)} />
+							<input type="text" placeholder="Введите вариант ответа" value={variant} onChange={(e) => handleVariantChange(index, e.target.value)} className={styles.input} />
 						</div>
 					))}
-					<button onClick={handleVariantAdd}>Add Variant</button>
-					<input type="number" placeholder="Correct Index" value={correctIndex} onChange={(e) => setCorrectIndex(parseInt(e.target.value))} />
-					<button onClick={handleQuizSubmit}>Add Question</button>
+					<button onClick={handleVariantAdd} className={styles.button}>Добавить вариант ответа</button>
+					<input type="number" placeholder="Введите индекс правильного варианта ответа" value={correctIndex} onChange={(e) => setCorrectIndex(parseInt(e.target.value))} className={styles.input} />
+					<button onClick={handleQuizSubmit} className={styles.button}>Add Question</button>
 					{quiz.map((q, index) => (
 						<div key={index}>
-							<p>Question: {q.title}</p>
-							<p>Variants: {q.variants.join(', ')}</p>
-							<p>Correct Index: {q.correct}</p>
+							<p>Вопрос: {q.title}</p>
+							<p>Варианты ответа: {q.variants.join(', ')}</p>
+							<p>Индекс правильного ответа: {q.correct}</p>
 						</div>
 					))}
-					<button onClick={handleContinue}>Finish</button>
+					<div className={styles.separator}></div>
+					<div className={styles.buttonsContainer}>
+						<button onClick={handleContinue} className={styles.button}>Закончить заполнение карточки</button>
+					</div>
 				</div>
 			)}
 		</div>
