@@ -16,7 +16,6 @@ const Login = () => {
 		
 		try {
 			await axios.post('/auth', { email, password });
-			// Если успешно аутентифицированы, перенаправьте пользователя на главную страницу
 			navigate('/');
 		} catch (error) {
 			console.error('Ошибка входа:', error);
@@ -56,7 +55,7 @@ const Login = () => {
 				</form>
 				<div className={styles['links']}>
 					<div>Нет аккаунта?</div>
-					<Link to='/auth/signUp'>Зарегистрироваться</Link>
+					<Link to='/auth/register'>Зарегистрироваться</Link>
 				</div>
 			</div>
 		</div>

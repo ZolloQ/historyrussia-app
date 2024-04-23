@@ -11,7 +11,7 @@
   margin-top: 20px;
   cursor: pointer;
   width: 300px;
-  transition: color background-color 0.5s ease;
+  transition: background-color 0.5s ease;
 }
 .quiz .result button:hover {
   background-color: #363434;

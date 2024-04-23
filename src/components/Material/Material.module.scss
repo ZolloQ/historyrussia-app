@@ -39,13 +39,13 @@
 	}
 	
 	&__image {
-		position: relative; /* Добавлено */
+		position: relative;
 		border-radius: 20px;
 		width: 100%;
 		max-height: 510px;
 		max-width: 100%;
 		display: block;
-		margin: 0 auto; /* Центрирование изображения */
+		margin: 0 auto;
 		
 		&-slider-container {
 			position: relative;
@@ -68,12 +68,12 @@
 	
 	&__prev-btn {
 		left: 0;
-		margin-left: -50px; /* Отступ слева для выравнивания */
+		margin-left: -50px;
 	}
 	
 	&__next-btn {
 		right: 0;
-		margin-right: -50px; /* Отступ справа для выравнивания */
+		margin-right: -50px;
 	}
 	&__image-slider {
 		position: relative;
