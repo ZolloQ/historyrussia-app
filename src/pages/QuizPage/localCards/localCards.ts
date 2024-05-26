@@ -1,6 +1,6 @@
-import type { Card } from '../../../interfaces/Quiz.interfaces.ts'
+import type { IQuiz } from '../../../interfaces/Quiz.interfaces.ts'
 
-const localCards: { [key: string]: Card } = {
+const localCards: { [key: string]: IQuiz } = {
 	"1": {
 		id: 1,
 		quiz: [

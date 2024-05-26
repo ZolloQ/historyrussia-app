@@ -10,7 +10,7 @@ import Login from './pages/Login/Login.tsx'
 import MainPage from './pages/MainPage/MainPage.tsx'
 import QuizPage from './pages/QuizPage/QuizPage.tsx'
 import Register from './pages/Register/Register.tsx'
-import store from './redux/store.ts'
+import { store } from './redux/store.ts'
 
 
 

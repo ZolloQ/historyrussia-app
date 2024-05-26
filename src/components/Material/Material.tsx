@@ -4,7 +4,7 @@ import { ChapterProps } from './Material.props';
 
 function Material(props: { chapters?: ChapterProps[] }) {
 	if (!props.chapters || props.chapters.length === 0) {
-		return null; 
+		return null;
 	}
 	
 	return (
@@ -13,8 +13,8 @@ function Material(props: { chapters?: ChapterProps[] }) {
 				<article key={index}>
 					<h2 className={styles['material__subtitle']}>{chapter.subtitle}</h2>
 					<div className={styles['material__text']}>{chapter.text}</div>
-					{chapter.image && (
-						<ImageSlider images={chapter.image} />
+					{chapter.images && chapter.images.length > 0 && (
+						<ImageSlider images={chapter.images.map(image => image.src)} />
 					)}
 				</article>
 			))}

@@ -1,77 +1,114 @@
+import axios from 'axios';
 import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
+import { IQuestion, IQuiz } from '../../interfaces/Quiz.interfaces';
 import styles from './CreateCard.module.scss';
-import type { CardProps } from '../../components/Card/Card.props.ts';
-import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props.ts';
-import type { Card, Question } from '../../interfaces/Quiz.interfaces.ts';
+import { CardProps } from '../../components/Card/Card.props';
+import { ChapterProps, MaterialProps, image } from '../../components/Material/Material.props';
 
 const CreateCard: React.FC = () => {
+	const navigate = useNavigate();
 	const [step, setStep] = useState<number>(1);
-	const [cardData, setCardData] = useState<Card>({
+	const [quizData, setQuizData] = useState<IQuiz>({
 		id: 0,
-		quiz: []
+		quiz: [],
 	});
 	const [cardProps, setCardProps] = useState<CardProps>({
 		id: 0,
 		name: '',
 		grade: '',
-		picture: ''
+		picture: '',
 	});
 	const [materialProps, setMaterialProps] = useState<MaterialProps>({
 		id: 0,
 		title: '',
-		chapters: []
+		chapters: [],
 	});
 	const [chapters, setChapters] = useState<ChapterProps[]>([]);
-	const [chapterImages, setChapterImages] = useState<string[][]>([]);
-	const [quiz, setQuiz] = useState<Question[]>([]);
+	const [chapterImages, setChapterImages] = useState<image[][]>([]);
+	const [quiz, setQuiz] = useState<IQuestion[]>([]);
 	const [question, setQuestion] = useState<string>('');
 	const [variants, setVariants] = useState<string[]>([]);
 	const [correctIndex, setCorrectIndex] = useState<number>(0);
+	
+	const handleSaveCard = async () => {
+		try {
+			await axios.post('/cards', cardProps);
+			
+			if (cardProps.picture) {
+				const formData = new FormData();
+				formData.append('image', cardProps.picture);
+				await axios.post('/admin/loadpic', formData, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				});
+			}
+			
+			await axios.post('/materials', materialProps);
+			
+			for (let i = 0; i < chapterImages.length; i++) {
+				for (let j = 0; j < chapterImages[i].length; j++) {
+					const formData = new FormData();
+					formData.append('image', chapterImages[i][j].src);
+					await axios.post(`/admin/loadpic`, formData, {
+						headers: { 'Content-Type': 'multipart/form-data' },
+					});
+				}
+			}
+			
+			await axios.post('/quiz', quizData);
+			
+			navigate('/');
+		} catch (error) {
+			console.error('Error saving data:', error);
+		}
+	};
 	
 	const handleContinue = () => {
 		setStep(step + 1);
 	};
 	
 	const handleCardPropsSubmit = () => {
-		const newCardData: CardProps = { ...cardProps };
-		setCardData({ ...cardData, ...newCardData });
+		setQuizData({ ...quizData, ...cardProps });
 		handleContinue();
 	};
 	
 	const handleMaterialPropsSubmit = () => {
-		const newMaterialProps: MaterialProps = { ...materialProps, chapters };
-		setCardData({ ...cardData, ...newMaterialProps });
+		setMaterialProps({ ...materialProps, chapters });
 		handleContinue();
 	};
 	
 	const handleChapterAdd = () => {
-		const newChapter: ChapterProps = { subtitle: '', text: '', image: [] };
-		const newChapterImages: string[] = [];
+		const newChapter: ChapterProps = { subtitle: '', text: '', images: [] };
 		setChapters([...chapters, newChapter]);
-		setChapterImages([...chapterImages, newChapterImages]);
+		setChapterImages([...chapterImages, []]);
 	};
 	
 	const handleImageUpload = (index: number, files: FileList | null) => {
 		if (files && files.length > 0) {
-			const images = Array.from(files).map(file => URL.createObjectURL(file));
+			const images = Array.from(files).map(file => ({
+				src: URL.createObjectURL(file),
+				key: Date.now()
+			}));
 			const updatedChapterImages = [...chapterImages];
 			updatedChapterImages[index] = [...updatedChapterImages[index], ...images];
 			setChapterImages(updatedChapterImages);
 		}
 	};
 	
-	const handleChapterChange = (index: number, field: keyof ChapterProps, value: string | string[]) => {
+	const handleChapterChange = (index: number, field: keyof ChapterProps, value: string | image[]) => {
 		const updatedChapters = [...chapters];
 		if (field === 'subtitle' || field === 'text') {
 			updatedChapters[index][field] = value as string;
-		} else if (field === 'image') {
-			updatedChapters[index][field] = value as string[];
+		} else if (field === 'images') {
+			updatedChapters[index][field] = value as image[];
 		}
 		setChapters(updatedChapters);
 	};
 	
 	const handleQuizSubmit = () => {
-		const newQuestion: Question = { title: question, variants, correct: correctIndex };
+		const newQuestion: IQuestion = { title: question, variants, correct: correctIndex };
 		setQuiz([...quiz, newQuestion]);
 		setQuestion('');
 		setVariants([]);
@@ -116,14 +153,31 @@ const CreateCard: React.FC = () => {
 					{chapters.map((chapter, index) => (
 						<div key={index}>
 							<input type="text" placeholder="Подзаголовок главы" value={chapter.subtitle} onChange={(e) => handleChapterChange(index, 'subtitle', e.target.value)} className={styles.input} />
-							<textarea placeholder="Текст главы" value={chapter.text} onChange={(e) => handleChapterChange(index, 'text', e.target.value)} className={styles.textarea} />
+							<ReactQuill
+								theme="snow"
+								modules={{
+									toolbar: [
+										['bold', 'italic', 'underline', 'strike'],
+										[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+										['link', 'image'],
+										[{ 'color': [] }],
+										[{ 'size': ['small', false, 'large', 'huge'] }]
+									]
+								}}
+								formats={[
+									'bold', 'italic', 'underline', 'strike', 'list', 'bullet', 'link', 'image', 'color', 'size'
+								]}
+								value={chapter.text}
+								onChange={(value) => handleChapterChange(index, 'text', value)}
+								className={styles.textarea}
+							/>
 							<label className={styles.fileInputLabel}>
 								Добавить картинку
 								<input type="file" onChange={(e) => handleImageUpload(index, e.target.files)} multiple className={styles.fileInput} />
 							</label>
 							<div className={styles.imagesContainer}>
-								{chapterImages[index].map((image, imgIndex) => (
-									<img key={imgIndex} src={image} alt={`Chapter ${index + 1} Image ${imgIndex + 1}`} className={styles.image} />
+								{chapter.images && chapter.images.map((image, imgIndex) => (
+									<img key={imgIndex} src={image.src} alt={`Chapter ${index + 1} Image ${imgIndex + 1}`} className={styles.image} />
 								))}
 							</div>
 						</div>
@@ -142,9 +196,9 @@ const CreateCard: React.FC = () => {
 							<input type="text" placeholder="Введите вариант ответа" value={variant} onChange={(e) => handleVariantChange(index, e.target.value)} className={styles.input} />
 						</div>
 					))}
-					<button onClick={handleVariantAdd} className={styles.button}>Добавить вариант ответа</button>
+					<button onClick={handleVariantAdd} className={styles.button__add}>Добавить вариант ответа</button>
 					<input type="number" placeholder="Введите индекс правильного варианта ответа" value={correctIndex} onChange={(e) => setCorrectIndex(parseInt(e.target.value))} className={styles.input} />
-					<button onClick={handleQuizSubmit} className={styles.button}>Add Question</button>
+					<button onClick={handleQuizSubmit} className={styles.button}>Добавить вопрос</button>
 					{quiz.map((q, index) => (
 						<div key={index}>
 							<p>Вопрос: {q.title}</p>
@@ -154,7 +208,7 @@ const CreateCard: React.FC = () => {
 					))}
 					<div className={styles.separator}></div>
 					<div className={styles.buttonsContainer}>
-						<button onClick={handleContinue} className={styles.button}>Закончить заполнение карточки</button>
+						<button onClick={handleSaveCard} className={styles.button}>Закончить заполнение карточки</button>
 					</div>
 				</div>
 			)}

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import type { Question } from '../../interfaces/Quiz.interfaces.ts';
+import type { IQuestion } from '../../interfaces/Quiz.interfaces.ts';
 import Button from '../Button/Button.tsx'
 import styles from './Game.module.scss';
 
 function Game({ question, onClickVariant, step, totalQuestions }: {
-	question: Question;
+	question: IQuestion;
 	onClickVariant: (index: number) => void;
 	step: number;
 	totalQuestions: number;

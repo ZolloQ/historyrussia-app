@@ -1,10 +1,10 @@
-export interface Question {
+export interface IQuestion {
 	title: string;
 	variants: string[];
 	correct: number;
 }
 
-export interface Card {
+export interface IQuiz {
 	id: number;
-	quiz: Question[];
+	quiz: IQuestion[];
 }

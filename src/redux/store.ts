@@ -1,11 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './AuthReducer.ts'
+import {configureStore} from "@reduxjs/toolkit";
+import { apiSlice } from "./api/api";
+import { authSlice } from "./slice/Auth";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
-// Создаем хранилище Redux
-const store = configureStore({
+
+export const store = configureStore({
 	reducer: {
-		auth: authReducer,
+		[apiSlice.reducerPath]: apiSlice.reducer,
+		authlocal: authSlice.reducer,
 	},
-});
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware().concat(apiSlice.middleware)
+})
 
-export default store;
+
+setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;

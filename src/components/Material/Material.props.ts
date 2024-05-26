@@ -7,5 +7,10 @@ export interface MaterialProps {
 export interface ChapterProps {
 	subtitle: string;
 	text: string;
-	image?: string[];
+	images?: image[];
+}
+
+export interface image {
+	src: string;
+	key: number;
 }

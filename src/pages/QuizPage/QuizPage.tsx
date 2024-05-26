@@ -1,26 +1,27 @@
+import axios from 'axios'
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import localCards from './localCards/localCards.ts'
 import styles from "./QuizPage.module.scss";
 import Game from '../../components/Game/Game.tsx'
 import Result from '../../components/Result/Result.tsx'
-import type { Card } from '../../interfaces/Quiz.interfaces.ts'
+import type { IQuiz } from '../../interfaces/Quiz.interfaces.ts'
 
 
 function QuizPage() {
 	const { id } = useParams<{ id: string }>();
 	const [step, setStep] = useState(0);
 	const [corrects, setCorrect] = useState(0);
-	const [card, setCard] = useState<Card | null>(null);
+	const [card, setCard] = useState<IQuiz | null>(null);
 	
 	useEffect(() => {
-		if (id !== undefined) {
-			const cardData = localCards[id];
-			if (cardData) {
-				setCard(cardData);
-			}
-		}
-	}, [id, localCards]);
+		axios.get(`/quiz/${id}`)
+			.then(response => {
+				setCard(response.data);
+			})
+			.catch(error => {
+				console.error('Error fetching card data', error);
+			});
+	}, [id]);
 	
 	const onClickVariant = (index: number) => {
 		const question = card?.quiz[step];

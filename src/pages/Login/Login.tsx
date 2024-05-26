@@ -1,65 +1,85 @@
-import { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Button from '../../components/Button/Button.tsx';
-import Input from '../../components/Input/Input.tsx';
-import styles from './Login.module.scss';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import { useGetAuthorizationMutation } from '../../redux/api/api';
+import { authActions } from '../../redux/slice/Auth.ts'
+import styles from '../Login/Login.module.css';
 
-const Login = () => {
+
+const Login: React.FC = () => {
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [loginError, setLoginError] = useState<boolean>(false);
+	const [getAuthing] = useGetAuthorizationMutation();
 	const navigate = useNavigate();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [error, setError] = useState('');
+	const dispatch = useDispatch();
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+		setLoginError(false); // Сбрасываем ошибку при изменении email
+	};
 	
-	const handleSubmit = async (event: FormEvent) => {
-		event.preventDefault();
-		
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		setLoginError(false); // Сбрасываем ошибку при изменении пароля
+	};
+	
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		try {
-			await axios.post('/auth', { email, password });
-			navigate('/');
+			const response = await getAuthing({ email, password });
+			if ('data' in response && response.data.jwt) {
+				localStorage.setItem('token', response.data.jwt);
+				dispatch(authActions.getAuth( response.data));
+				navigate('/');
+			} else {
+				console.error('Неправильные учетные данные');
+				setLoginError(true); // Устанавливаем состояние ошибки, если нет токена в ответе
+			}
 		} catch (error) {
 			console.error('Ошибка входа:', error);
-			setError('Ошибка входа. Проверьте правильность введенных данных.');
+			setLoginError(true); // Устанавливаем состояние ошибки при возникновении ошибки запроса
 		}
 	};
 	
 	return (
-		<div className={styles['auth']}>
-			<div className={styles['login']}>
+		<div className={styles.auth}>
+			<div className={styles.login}>
+				<p style={{ color: 'red' }}>{loginError && 'Неправильные учетные данные'}</p>
 				<h1>Вход</h1>
-				<form className={styles['form']} onSubmit={handleSubmit}>
-					<div className={styles['field']}>
+				<form className={styles.form} onSubmit={handleSubmit}>
+					<div className={styles.field}>
 						<label htmlFor="email">Ваш e-mail</label>
 						<Input
 							id="email"
-							name='email'
 							type="email"
-							placeholder='email'
+							placeholder="email"
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							onChange={handleEmailChange}
 						/>
 					</div>
-					<div className={styles['field']}>
+					<div className={styles.field}>
 						<label htmlFor="password">Ваш пароль</label>
 						<Input
 							id="password"
-							name='password'
 							type="password"
-							placeholder='Пароль'
+							placeholder="Пароль"
 							value={password}
-							onChange={(e) => setPassword(e.target.value)}
+							onChange={handlePasswordChange}
 						/>
 					</div>
-					{error && <div className={styles['error']}>{error}</div>}
-					<Button appearence='big' className={styles['button']} type="submit"> Войти</Button>
+					<Button appearence="big" className={styles.button} type="submit">
+						Войти
+					</Button>
 				</form>
-				<div className={styles['links']}>
+				<div className={styles.links}>
 					<div>Нет аккаунта?</div>
-					<Link to='/auth/register'>Зарегистрироваться</Link>
+					<Link to="/auth/register">Зарегистрироваться</Link>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default Login;

@@ -1,100 +1,119 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios, { type AxiosError } from 'axios'
-import Button from '../../components/Button/Button.tsx';
-import Input from '../../components/Input/Input.tsx';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import { useGetRegistrationMutation } from '../../redux/api/api';
 import styles from '../Login/Login.module.css';
 
 const Register: React.FC = () => {
+	const [getReg] = useGetRegistrationMutation();
+	const navigate = useNavigate();
+	const [isError, setIsError] = useState(false);
+	
 	const [formData, setFormData] = useState({
-		name: '',
+		uname: '',
 		email: '',
-		password: '',
-		role: ''
+		pasw: '',
+		role: '',
 	});
-	const [error, setError] = useState<string>('');
 	
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		setFormData(prevState => ({
-			...prevState,
-			[name]: value
-		}));
-		setError('');
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
 	};
 	
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost/signup', formData);
-			console.log(response.data);
-			window.location.href = '/auth';
+			const response = await getReg(formData);
+			if ('data' in response && response.data.token) {
+				localStorage.setItem('token', response.data.token);
+				navigate('/'); // Переход на главную страницу после успешной регистрации
+			} else if ('error' in response) {
+				if (typeof response.error === 'string' && response.error === 'Данный email уже зарегистрирован') {
+					setIsError(true); // Показываем ошибку, если email уже зарегистрирован
+				} else {
+					console.error(response.error);
+					setIsError(true);
+				}
+			}
 		} catch (error) {
-			handleRequestError(error as Error | AxiosError);
-		}
-	};
-	
-	const handleRequestError = (error: Error | AxiosError) => {
-		if (axios.isAxiosError(error) && error.response) {
-			console.error('Ошибка регистрации:', error.response.data.message);
-			setError('Ошибка регистрации. Пожалуйста, попробуйте еще раз.');
-		} else {
-			console.error('Ошибка регистрации:', error);
-			setError('Произошла ошибка регистрации. Пожалуйста, попробуйте еще раз.');
+			console.error(error);
+			setIsError(true);
 		}
 	};
 	
 	return (
-		<div className={styles['auth']}>
-			<div className={styles['login']}>
+		<div className={styles.auth}>
+			<div className={styles.login}>
+				<p style={{ color: 'red' }}>{isError && 'Ошибка'}</p>
 				<h1>Регистрация</h1>
-				<form className={styles['form']} onSubmit={handleSubmit}>
-					<div className={styles['field']}>
-						<label htmlFor="name">Ваше имя</label>
-						<Input id="name" name="name" type="text" placeholder="Имя" value={formData.name} onChange={handleChange} />
+				<form className={styles.form} onSubmit={handleSubmit}>
+					<div className={styles.field}>
+						<label htmlFor="uname">Ваше имя</label>
+						<Input
+							id="uname"
+							type="text"
+							placeholder="Имя"
+							name="uname"
+							value={formData.uname}
+							onChange={handleChange}
+						/>
 					</div>
-					<div className={styles['field']}>
+					<div className={styles.field}>
 						<label htmlFor="email">Ваш e-mail</label>
-						<Input id="email" name="email" type="email" placeholder="email" value={formData.email} onChange={handleChange} />
+						<Input
+							id="email"
+							type="email"
+							placeholder="Email"
+							name="email"
+							value={formData.email}
+							onChange={handleChange}
+						/>
 					</div>
-					<div className={styles['field']}>
-						<label htmlFor="password">Ваш пароль</label>
-						<Input id="password" name="password" type="password" placeholder="Пароль" value={formData.password} onChange={handleChange} />
+					<div className={styles.field}>
+						<label htmlFor="pasw">Ваш пароль</label>
+						<Input
+							id="pasw"
+							type="password"
+							placeholder="Пароль"
+							name="pasw"
+							value={formData.pasw}
+							onChange={handleChange}
+						/>
 					</div>
-					<div className={styles['field']}>
+					<div className={styles.field}>
 						<label>Кто вы?</label>
-						<div className={styles['role']}>
-							<div className={styles['role-option']}>
+						<div className={styles.role}>
+							<div className={styles.roleOption}>
 								<input
 									type="radio"
-									id="teacher"
-									name="role"
+									id="Admin"
 									value="teacher"
+									name="role"
 									checked={formData.role === 'teacher'}
 									onChange={handleChange}
 								/>
 								<label htmlFor="teacher">Учитель</label>
 							</div>
-							<div className={styles['role-option']}>
+							<div className={styles.roleOption}>
 								<input
 									type="radio"
-									id="student"
+									id="user"
+									value="User"
 									name="role"
-									value="student"
-									checked={formData.role === 'student'}
+									checked={formData.role === 'User'}
 									onChange={handleChange}
 								/>
-								<label htmlFor="student">Ученик</label>
+								<label htmlFor="User">Ученик</label>
 							</div>
 						</div>
-						{error && <div className={styles['error']}>{error}</div>}
 					</div>
-					<Button appearence="big" className={styles['button']} type="submit">
+					<Button appearence="big" className={styles.button} type="submit">
 						Зарегистрироваться
 					</Button>
 				</form>
-				<div className={styles['links']}>
+				<div className={styles.links}>
 					<div>Уже есть аккаунт?</div>
 					<Link to="/auth">Войти</Link>
 				</div>
