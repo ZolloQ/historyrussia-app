@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-// import { useLogoutMutation } from '../../redux/api/api.ts'; // Импортируем useLogoutMutation
+import { useLogoutMutation } from '../../redux/api/api.ts'; // Импортируем useLogoutMutation
 import styles from './Header.module.scss';
 import { authActions } from '../../redux/slice/Auth'; // Импортируем экшн logout
 
@@ -8,11 +8,11 @@ const Header = () => {
 	const isAuth = useSelector((state: { authlocal: { status: boolean } }) => state.authlocal.status);
 	const userRole = useSelector((state: { authlocal: { role: string | null } }) => state.authlocal.role);
 	const dispatch = useDispatch();
-	// const [logout] = useLogoutMutation(); // Деструктурируем logout из useLogoutMutation
+	const [logout] = useLogoutMutation(); // Деструктурируем logout из useLogoutMutation
 	
 	const handleLogout = async () => {
 		try {
-			// await logout(undefined); // Вызываем функцию logout из useLogoutMutation
+			await logout(undefined); // Вызываем функцию logout из useLogoutMutation
 			dispatch(authActions.logout()); // Диспатчим экшн logout для обновления состояния аутентификации
 		} catch (error) {
 			console.error('Ошибка выхода:', error);

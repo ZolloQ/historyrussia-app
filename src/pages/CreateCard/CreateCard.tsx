@@ -3,10 +3,10 @@ import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
+import type { CardProps } from '../../components/Card/Card.props.ts'
 import { IQuestion, IQuiz } from '../../interfaces/Quiz.interfaces';
 import styles from './CreateCard.module.scss';
-import { CardProps } from '../../components/Card/Card.props';
-import { ChapterProps, MaterialProps, image } from '../../components/Material/Material.props';
+import { ChapterProps, type image, MaterialProps } from '../../components/Material/Material.props'
 
 const CreateCard: React.FC = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ const CreateCard: React.FC = () => {
 		id: 0,
 		name: '',
 		grade: '',
-		picture: '',
+		picture: { src: '', key: 0 },
 	});
 	const [materialProps, setMaterialProps] = useState<MaterialProps>({
 		id: 0,
@@ -36,14 +36,11 @@ const CreateCard: React.FC = () => {
 	const handleSaveCard = async () => {
 		try {
 			await axios.post('/cards', cardProps);
-			
-			if (cardProps.picture) {
-				const formData = new FormData();
-				formData.append('image', cardProps.picture);
-				await axios.post('/admin/loadpic', formData, {
-					headers: { 'Content-Type': 'multipart/form-data' },
-				});
-			}
+			const cardImageFormData = new FormData();
+			cardImageFormData.append('image', cardProps.picture.src);
+			await axios.post('/admin/loadpic', cardImageFormData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			});
 			
 			await axios.post('/materials', materialProps);
 			
@@ -65,18 +62,50 @@ const CreateCard: React.FC = () => {
 		}
 	};
 	
-	const handleContinue = () => {
+	const handleContinue = async () => {
+		switch (step) {
+			case 1:
+				await handleCardPropsSubmit();
+				break;
+			case 2:
+				await handleMaterialPropsSubmit();
+				break;
+			case 3:
+				await handleSaveCard();
+				break;
+			default:
+				break;
+		}
 		setStep(step + 1);
 	};
 	
-	const handleCardPropsSubmit = () => {
-		setQuizData({ ...quizData, ...cardProps });
-		handleContinue();
+	const handleCardPropsSubmit = async () => {
+		try {
+			await axios.post('/cards', cardProps);
+			
+			if (cardProps.picture.src) {
+				const formData = new FormData();
+				formData.append('image', cardProps.picture.src);
+				await axios.post('/admin/loadpic', formData, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				});
+			}
+			
+			setQuizData({ ...quizData, ...cardProps });
+			handleContinue();
+		} catch (error) {
+			console.error('Error saving card data:', error);
+		}
 	};
 	
-	const handleMaterialPropsSubmit = () => {
-		setMaterialProps({ ...materialProps, chapters });
-		handleContinue();
+	const handleMaterialPropsSubmit = async () => {
+		try {
+			await axios.post('/materials', materialProps);
+			setMaterialProps({ ...materialProps, chapters });
+			handleContinue();
+		} catch (error) {
+			console.error('Error saving material data:', error);
+		}
 	};
 	
 	const handleChapterAdd = () => {
@@ -89,7 +118,7 @@ const CreateCard: React.FC = () => {
 		if (files && files.length > 0) {
 			const images = Array.from(files).map(file => ({
 				src: URL.createObjectURL(file),
-				key: Date.now()
+				key: Date.now(),
 			}));
 			const updatedChapterImages = [...chapterImages];
 			updatedChapterImages[index] = [...updatedChapterImages[index], ...images];
@@ -134,10 +163,10 @@ const CreateCard: React.FC = () => {
 					<input type='number' placeholder='Класс' value={cardProps.grade} onChange={(e) => setCardProps({ ...cardProps, grade: e.target.value })} min={9} max={11} className={styles.input} />
 					<label className={styles.fileInputLabel}>
 						Добавить картинку
-						<input type="file" onChange={(e) => setCardProps({ ...cardProps, picture: URL.createObjectURL(e.target.files![0]) })} className={styles.fileInput} />
+						<input type="file" onChange={(e) => setCardProps({ ...cardProps, picture: { src: URL.createObjectURL(e.target.files![0]), key: Date.now() } })} className={styles.fileInput} />
 					</label>
-					{cardProps.picture && (
-						<img src={cardProps.picture} alt="Preview" className={styles.previewImage} />
+					{cardProps.picture.src && (
+						<img src={cardProps.picture.src} alt="Preview" className={styles.previewImage} />
 					)}
 					<div className={styles.buttonContainer}>
 						<button onClick={handleCardPropsSubmit} className={styles.button}>Продолжить</button>
@@ -215,5 +244,4 @@ const CreateCard: React.FC = () => {
 		</div>
 	);
 };
-
 export default CreateCard;

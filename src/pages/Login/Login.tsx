@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useGetAuthorizationMutation } from '../../redux/api/api';
-import { authActions } from '../../redux/slice/Auth.ts'
+import { authActions } from '../../redux/slice/Auth.ts';
 import styles from '../Login/Login.module.css';
-
 
 const Login: React.FC = () => {
 	const [email, setEmail] = useState<string>('');
@@ -15,6 +14,18 @@ const Login: React.FC = () => {
 	const [getAuthing] = useGetAuthorizationMutation();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	
+	useEffect(() => {
+		const token = document.cookie.replace(
+			/(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
+			'$1'
+		);
+		if (token) {
+			// Если токен найден в куки, перенаправляем пользователя на главную страницу
+			navigate('/');
+		}
+	}, []);
+	
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 		setLoginError(false); // Сбрасываем ошибку при изменении email
@@ -30,8 +41,8 @@ const Login: React.FC = () => {
 		try {
 			const response = await getAuthing({ email, password });
 			if ('data' in response && response.data.jwt) {
-				localStorage.setItem('token', response.data.jwt);
-				dispatch(authActions.getAuth( response.data));
+				document.cookie = `jwt=${response.data.jwt}; path=/`; // Сохраняем токен в куки
+				dispatch(authActions.getAuth(response.data));
 				navigate('/');
 			} else {
 				console.error('Неправильные учетные данные');
