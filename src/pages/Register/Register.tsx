@@ -26,26 +26,10 @@ const Register: React.FC = () => {
 		e.preventDefault();
 		try {
 			const response = await getReg(formData);
-			if ('data' in response && response.data.token) {
-				// Добавляем время жизни токена
-				const tokenExpireTime = 3600; // 1 час (в секундах)
-				const expirationTime = new Date(
-					Date.now() + tokenExpireTime * 1000
-				);
-				
-				document.cookie = `jwt=${response.data.token}; expires=${expirationTime.toUTCString()}; path=/`;
-				
-				navigate('/auth');
+			if ('data' in response && response.data.status) {
+				navigate('/');
 			} else if ('error' in response) {
-				if (
-					typeof response.error === 'string' &&
-					response.error === 'Данный email уже зарегистрирован'
-				) {
-					setIsError(true); // Показываем ошибку, если email уже зарегистрирован
-				} else {
-					console.error(response.error);
-					setIsError(true);
-				}
+				setIsError(true);
 			}
 		} catch (error) {
 			console.error(error);
@@ -88,7 +72,7 @@ const Register: React.FC = () => {
 							type="password"
 							placeholder="Пароль"
 							name="pasw"
-							value={formData   .pasw}
+							value={formData.pasw}
 							onChange={handleChange}
 						/>
 					</div>
@@ -133,3 +117,4 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+

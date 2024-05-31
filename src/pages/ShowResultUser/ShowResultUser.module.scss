@@ -1,0 +1,28 @@
+.tableContainer {
+	margin-top: 100px;
+	width: 1600px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+	min-width: 650px;
+}
+
+.tableHead {
+	background-color: #f5f5f5;
+}
+
+.tableRow {
+	&:nth-of-type(odd) {
+		background-color: #f9f9f9;
+	}
+}
+
+.tableCell {
+	padding: 16px;
+	text-align: center;
+}
+
+.tableHeaderCell {
+	font-weight: bold;
+}

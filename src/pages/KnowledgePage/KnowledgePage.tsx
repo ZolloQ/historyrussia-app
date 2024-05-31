@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import Button from '../../components/Button/Button.tsx';
 import Material from '../../components/Material/Material';
 import MainLayout from '../../layout/Main/Layout';
+import { useGetMaterialQuery } from '../../redux/api/api.ts'
 import styles from './KnowledgePage.module.scss';
 import { MaterialProps } from '../../components/Material/Material.props'; // Импорт интерфейса MaterialProps
 
@@ -11,6 +11,19 @@ const KnowledgePage = () => {
 	const [showScrollButton, setShowScrollButton] = useState(false);
 	const [material, setMaterial] = useState<MaterialProps | null>(null);
 	
+	const { id } = useParams();
+	
+	// Используем хук для получения данных страницы
+	const { data: materialData, isLoading, isError } = useGetMaterialQuery();
+	
+	// Обновляем состояние с данными страницы
+	useEffect(() => {
+		if (materialData) {
+			setMaterial(materialData);
+		}
+	}, [materialData]);
+	
+	// Логика скролла и кнопки вверх
 	useEffect(() => {
 		const handleScroll = () => {
 			if (window.pageYOffset > 100) {
@@ -24,8 +37,8 @@ const KnowledgePage = () => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 	
+	// Функция для прокрутки наверх
 	const scrollUpRef = useRef<HTMLDivElement>(null);
-	
 	const handleScrollUp = () => {
 		if (scrollUpRef.current) {
 			window.scrollTo({
@@ -35,37 +48,32 @@ const KnowledgePage = () => {
 		}
 	};
 	
-	const { id } = useParams<{ id: string }>();
-	
-	useEffect(() => {
-		const axiosMaterialData = async () => {
-			try {
-				const response = await axios.get(`/materials/${id}`);
-				setMaterial(response.data);
-			} catch (error) {
-				console.error('Ошибка при загрузке данных:', error);
-			}
-		};
-		
-		axiosMaterialData();
-	}, [id]);
-	
+	// Переход к викторине
 	const quizNav = useNavigate();
 	const handleQuiz = () => {
 		if (material) {
-			quizNav(`/card/${material.id}/quiz`);
+			quizNav(`/card/${id}/quiz`);
 		}
 	};
 	
-	if (!material) {
+	// Отображение данных страницы
+	if (isLoading) {
 		return <div>Загрузка...</div>;
+	}
+	
+	if (isError) {
+		return <div>Ошибка при загрузке данных</div>;
+	}
+	
+	if (!material) {
+		return null;
 	}
 	
 	return (
 		<MainLayout>
 			<div className={styles['KnowledgePage__container']}>
 				<h1 className={styles['KnowledgePage__title']}>{material.title}</h1>
-				<Material chapters={material.chapters} />
+				<Material chapters ={material.chapters} />
 				<Button onClick={handleQuiz} appearence={'big'} className={styles['KnowledgePage__button']}>
 					Перейти к викторине
 				</Button>

@@ -1,17 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import type { MaterialProps } from '../../components/Material/Material.props.ts'
 
 export const apiSlice = createApi({
 	reducerPath: "auth",
 	baseQuery: fetchBaseQuery({
-		prepareHeaders: (headers) => {
-			if (localStorage.getItem("token")) {
-				headers.set(
-					"Authorization",
-					`Bearer ${localStorage.getItem("token")}`,
-				);
+		prepareHeaders: (headers,{endpoint}) => {
+			console.log(endpoint);
+			if (endpoint != "uploadImage"){
+				// headers.set('Content-Type', 'multipart/form-data');
+				headers.set("Content-Type", "application/json");
 			}
-			headers.set("Content-Type", "application/json");
 			return headers;
 		},
 	}),
@@ -39,6 +37,42 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Token']
 		}),
+		uploadImage: builder.mutation({
+			query: image => {
+				console.log(image);
+				console.log(image);
+				return {
+					url: "/admin/loadpic",
+					method: "POST",
+					body: (image)
+				};
+			},
+		}),
+		postUploadCard: builder.mutation({
+			query: (body) => ({
+				url: "/admin/card",
+				method: "POST",
+				body: JSON.stringify(body),
+			}),
+		}),
+		getListCard: builder.mutation({
+			query: ()  => ({
+				url: '/quiz/card',
+				method: 'GET',
+			}),
+		}),
+		getCard: builder.mutation({
+			query: (id)  => ({
+				url: `/quiz/card/${id}`,
+				method: 'GET',
+			}),
+		}),
+		getMaterial: builder.query<MaterialProps, number | void>({
+			query: (id)  => ({
+				url: `/quiz/card/${id}`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
@@ -46,4 +80,10 @@ export const {
 	useGetAuthorizationMutation,
 	useGetRegistrationMutation,
 	useLogoutMutation,
+	useUploadImageMutation,
+	usePostUploadCardMutation,
+	useGetListCardMutation,
+	useGetCardMutation,
+	useGetMaterialQuery,
 } = apiSlice;
+

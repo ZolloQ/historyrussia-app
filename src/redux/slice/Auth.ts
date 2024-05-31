@@ -1,49 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-const IS_AUTH = 'jwt';
+const AUTH_DATA = 'authData';
 
 interface IAuth {
 	status: boolean;
 	role: string | null;
-	jwt?: string | null;
+	token: string | null;
 }
 
-// Функция для получения данных аутентификации из куков
-const getAuthFromCookies = (): IAuth | null => {
-	const authCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith(IS_AUTH));
-	if (authCookie) {
-		const authString = authCookie.split('=')[1];
-		return JSON.parse(decodeURIComponent(authString));
-	}
-	return null;
-}
-
-// Получаем начальное состояние из куков, если оно есть
-const initialAuth = getAuthFromCookies();
+const storedAuthData = localStorage.getItem(AUTH_DATA);
+const initialAuth = storedAuthData ? JSON.parse(storedAuthData) : { status: false, role: null, token: null };
 
 const initialState: IAuth = {
-	status: initialAuth ? initialAuth.status : false,
-	role: initialAuth ? initialAuth.role : null,
-	jwt: initialAuth ? initialAuth.jwt : null
+	status: initialAuth.status,
+	role: initialAuth.role,
+	token: initialAuth.token,
 };
 
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		getAuth(state, action: PayloadAction<IAuth>) {
+		getAuth(state, action) {
 			state.status = action.payload.status;
 			state.role = action.payload.role;
-			state.jwt = action.payload.jwt;
-			// При получении новых данных аутентификации, сохраняем их в куки
-			document.cookie = `${IS_AUTH}=${encodeURIComponent(JSON.stringify(action.payload))}; path=/`;
+			state.token = action.payload.token;
+			localStorage.setItem(AUTH_DATA, JSON.stringify(state)); // Сохраняем всё состояние
 		},
 		logout(state) {
 			state.status = false;
 			state.role = null;
-			state.jwt = null;
-			// При выходе пользователя, удаляем данные аутентификации из куков
-			document.cookie = `${IS_AUTH}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+			state.token = null;
+			localStorage.removeItem(AUTH_DATA); // Удаляем все данные из localStorage при выходе
 		},
 	},
 });
