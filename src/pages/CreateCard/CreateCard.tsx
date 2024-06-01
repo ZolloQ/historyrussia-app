@@ -21,7 +21,6 @@ const CreateCard: React.FC = () => {
 		picture: new File([], ''),
 	});
 	const [materialProps, setMaterialProps] = useState<MaterialProps>({
-		id: 0,
 		title: '',
 		chapters: [],
 	});
@@ -100,7 +99,7 @@ const CreateCard: React.FC = () => {
 	};
 	
 	const handleChapterAdd = () => {
-		const newChapter: ChapterProps = { subtitle: '', text: '', images: [] };
+		const newChapter: ChapterProps = {subtitle: '', text: '', images: [] };
 		setChapters([...chapters, newChapter]);
 		setChapterImages([...chapterImages, []]);
 		setChapterImageURLs([...chapterImageURLs, []]);

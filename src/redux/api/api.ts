@@ -67,7 +67,7 @@ export const apiSlice = createApi({
 				method: 'GET',
 			}),
 		}),
-		getMaterial: builder.query<MaterialProps, number | void>({
+		getMaterial: builder.query<MaterialProps, string | void>({
 			query: (id)  => ({
 				url: `/quiz/card/${id}`,
 				method: 'GET',

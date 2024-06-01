@@ -14,7 +14,7 @@ const KnowledgePage = () => {
 	const { id } = useParams();
 	
 	// Используем хук для получения данных страницы
-	const { data: materialData, isLoading, isError } = useGetMaterialQuery();
+	const { data: materialData, isLoading, isError } = useGetMaterialQuery(id);
 	
 	// Обновляем состояние с данными страницы
 	useEffect(() => {

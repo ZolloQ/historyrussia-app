@@ -1,5 +1,4 @@
 export interface MaterialProps {
-	id: number;
 	title: string;
 	chapters: ChapterProps[];
 }

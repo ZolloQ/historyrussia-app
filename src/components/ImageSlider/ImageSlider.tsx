@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from '../Material/Material.module.scss';
 
 interface ImageSliderProps {
-	images: string[];
+	images: string[]; // Теперь используем массив строк для путей к изображениям
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
+	const { id } = useParams(); // Получаем id из URL
+	
 	const [currentSlide, setCurrentSlide] = useState(0);
+	
+	const imageUrl = `../card/${id}/${images[currentSlide]}`;
 	
 	const nextSlide = () => {
 		setCurrentSlide((prevSlide) => (prevSlide === images.length - 1 ? 0 : prevSlide + 1));
@@ -21,13 +26,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
 	}
 	
 	if (images.length === 1) {
-		return <img src={images[0]} className={styles['material__image']} alt="Slide" />;
+		return <img src={imageUrl} className={styles['material__image']} alt="Slide" />;
 	}
 	
 	return (
 		<div className={styles['material__image-slider']}>
 			<button className={styles['material__prev-btn']} onClick={prevSlide}>&lt;</button>
-			<img src={images[currentSlide]} className={styles['material__image']} alt={`Slide ${currentSlide}`} />
+			<img src={imageUrl} className={styles['material__image']} alt={`Slide ${currentSlide}`} />
 			<button className={styles['material__next-btn']} onClick={nextSlide}>&gt;</button>
 		</div>
 	);

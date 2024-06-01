@@ -12,7 +12,10 @@ function Material(props: { chapters: ChapterProps[] }) {
 			{props.chapters.map((chapter, index) => (
 				<article key={index}>
 					<h2 className={styles['material__subtitle']}>{chapter.subtitle}</h2>
-					<div className={styles['material__text']}>{chapter.text}</div>
+					<div
+						className={styles['material__text']}
+						dangerouslySetInnerHTML={{ __html: chapter.text }}
+					></div>
 					{/* Проверяем наличие файлов изображений */}
 					{chapter.images && chapter.images.length > 0 && (
 						<ImageSlider images={chapter.images.map(image => URL.createObjectURL(image))} />

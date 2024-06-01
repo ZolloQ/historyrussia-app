@@ -47,4 +47,85 @@
   opacity: 1;
 }
 
+.material__subtitle {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.material__text {
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.material__text span[title] {
+  color: crimson;
+  position: relative;
+  cursor: pointer;
+}
+
+.material__text span[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.material__wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.material__image {
+  position: relative;
+  border-radius: 20px;
+  width: 100%;
+  max-height: 510px;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.material__image-slider-container {
+  position: relative;
+  margin: 0 auto;
+}
+
+.material__prev-btn, .material__next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 60px;
+  color: #000000;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.material__prev-btn {
+  left: 0;
+  margin-left: -50px;
+}
+
+.material__next-btn {
+  right: 0;
+  margin-right: -50px;
+}
+
+.material__image-slider {
+  position: relative;
+}
+
 /*# sourceMappingURL=KnowledgePage.module.css.map */
