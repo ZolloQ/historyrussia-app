@@ -30,7 +30,7 @@ const Header = () => {
 				</NavLink>
 			)}
 			{isAuth ? (
-				<NavLink to='/' onClick={handleLogout} className={styles['header__auth']}>
+				<NavLink to='/auth' onClick={handleLogout} className={styles['header__auth']}>
 					Выйти
 				</NavLink>
 			) : (

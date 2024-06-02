@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import type { IQuestion } from '../../interfaces/Quiz.interfaces.ts';
 import Button from '../Button/Button.tsx'
 import styles from './Game.module.scss';
 
+interface quizResponce{
+	question: string;
+	correct: number;
+	answers: string;
+}
+
 function Game({ question, onClickVariant, step, totalQuestions }: {
-	question: IQuestion;
+	question: quizResponce;
 	onClickVariant: (index: number) => void;
 	step: number;
 	totalQuestions: number;
@@ -36,9 +41,10 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 				<div className={styles['progress__label']}>{step + 1} из {totalQuestions}</div>
 			</div>
 			
-			<h1>{question.title}</h1>
+			<h1>{question.question}</h1>
 			<ul>
-				{question.variants.map((text, index) => (
+				{ /* @ts-ignore */ }
+				{JSON.parse(question.answers).map((text, index) => (
 					<li
 						key={index}
 						onClick={() => handleVariantClick(index)}

@@ -10,6 +10,10 @@
 		font-weight: 400;
 		font-size: 20px;
 		margin-bottom: 30px;
+		a {
+			color: crimson;
+			text-decoration: underline;
+		}
 		
 		span[title] {
 			color: crimson;
@@ -41,8 +45,8 @@
 	&__image {
 		position: relative;
 		border-radius: 20px;
-		width: 100%;
-		max-height: 510px;
+		width: fit-content;
+		height: 100%;
 		max-width: 100%;
 		display: block;
 		margin: 0 auto;
@@ -76,6 +80,9 @@
 		margin-right: -50px;
 	}
 	&__image-slider {
+		width: 100%;
+		max-width: 70vw;
+		aspect-ratio: 1.69;
 		position: relative;
 	}
 }

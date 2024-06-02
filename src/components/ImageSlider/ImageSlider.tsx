@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from '../Material/Material.module.scss';
 
+
 interface ImageSliderProps {
-	images: string[]; // Теперь используем массив строк для путей к изображениям
+	images: string[];
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
@@ -12,6 +13,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	
 	const imageUrl = `../card/${id}/${images[currentSlide]}`;
+	console.log(imageUrl)
 	
 	const nextSlide = () => {
 		setCurrentSlide((prevSlide) => (prevSlide === images.length - 1 ? 0 : prevSlide + 1));

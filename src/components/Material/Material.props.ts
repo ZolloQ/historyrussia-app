@@ -6,5 +6,5 @@ export interface MaterialProps {
 export interface ChapterProps {
 	subtitle: string;
 	text: string;
-	images?: File[];
+	image?: File[];
 }

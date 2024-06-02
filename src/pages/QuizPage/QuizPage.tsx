@@ -1,54 +1,64 @@
-import axios from 'axios'
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useGetQuizQuery } from '../../redux/api/api.ts'
 import styles from "./QuizPage.module.scss";
 import Game from '../../components/Game/Game.tsx'
-import Result from '../../components/Result/Result.tsx'
-import type { IQuiz } from '../../interfaces/Quiz.interfaces.ts'
+import Result from'../../components/Result/Result.tsx';
+import type { IQuiz, IQuestion } from '../../interfaces/Quiz.interfaces.ts';
 
-
-function QuizPage() {
+const QuizPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
-	const [step, setStep] = useState(0);
-	const [corrects, setCorrect] = useState(0);
-	const [card, setCard] = useState<IQuiz | null>(null);
+	const [step, setStep] = useState<number>(0);
+	const [corrects, setCorrect] = useState<number>(0);
+	const [quizData, setQuizData] = useState<IQuiz | null>(null);
+	const { data: cardData, isLoading, isError } = useGetQuizQuery(id);
 	
 	useEffect(() => {
-		axios.get(`/quiz/${id}`)
-			.then(response => {
-				setCard(response.data);
-			})
-			.catch(error => {
-				console.error('Error fetching card data', error);
-			});
-	}, [id]);
+		if (cardData) {
+			setQuizData(cardData);
+		}
+	}, [cardData]);
+	
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+	
+	if (isError || !quizData) {
+		return <div>Error: Unable to load quiz data</div>;
+	}
+	
+	const { quiz } = quizData;
 	
 	const onClickVariant = (index: number) => {
-		const question = card?.quiz[step];
-		if (question) {
-			if (index === question.correct) {
+		const currentQuestion = quiz[step];
+		if (currentQuestion) {
+			if (index === currentQuestion.correct) {
 				setCorrect(corrects + 1);
 			}
 			setStep(step + 1);
 		}
 	};
 	
-	if (!card) return <div>Loading...</div>;
+	const currentQuestion: IQuestion = quiz[step];
 	
-	const questions = card.quiz;
-	const question = questions[step];
-	
+	// @ts-ignore
 	return (
-		<div className={styles['quiz-page']}>
-			<div className={styles['quiz']}>
-				{step !== questions.length ? (
-					<Game step={step} question={question} onClickVariant={onClickVariant} totalQuestions={questions.length} />
+		<div className={styles.quizPage}>
+			<div className={styles.quiz}>
+				{step !== quiz.length ? (
+					<Game
+						// @ts-ignore
+						question={currentQuestion}
+						onClickVariant={onClickVariant}
+						step={step}
+						totalQuestions={quiz.length}
+					/>
 				) : (
-					<Result correct={corrects} totalQuestions={questions.length} />
+					<Result correct={corrects} totalQuestions={quiz.length} />
 				)}
 			</div>
 		</div>
 	);
-}
+};
 
 export default QuizPage;

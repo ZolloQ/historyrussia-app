@@ -9,19 +9,26 @@ function Material(props: { chapters: ChapterProps[] }) {
 	
 	return (
 		<div>
-			{props.chapters.map((chapter, index) => (
-				<article key={index}>
-					<h2 className={styles['material__subtitle']}>{chapter.subtitle}</h2>
-					<div
-						className={styles['material__text']}
-						dangerouslySetInnerHTML={{ __html: chapter.text }}
-					></div>
-					{/* Проверяем наличие файлов изображений */}
-					{chapter.images && chapter.images.length > 0 && (
-						<ImageSlider images={chapter.images.map(image => URL.createObjectURL(image))} />
-					)}
-				</article>
-			))}
+			{props.chapters.map((chapter, index) => {
+				// @ts-ignore
+				const images = JSON.parse(chapter.image);
+				
+				return (
+					<article key={index}>
+						<h2 className={styles['material__subtitle']}>{chapter.subtitle}</h2>
+						<div
+							className={styles['material__text']}
+							dangerouslySetInnerHTML={{ __html: chapter.text }}
+						></div>
+						{/* Проверяем наличие файлов изображений */}
+						{images && images.length > 0 && (
+						<>
+							<ImageSlider images={images} />
+						</>
+						)}
+					</article>
+				)
+			})}
 		</div>
 	);
 }

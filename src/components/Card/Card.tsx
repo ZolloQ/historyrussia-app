@@ -1,13 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDeleteCardMutation } from '../../redux/api/api.ts';
 import styles from './Card.module.scss';
-// import Swal from 'sweetalert2';
 import type { CardProps } from './Card.props';
 
-const Card: React.FC<CardProps> = ({ id, name, grade, picture }) => {
+const Card: React.FC<CardProps> = ({ id, name, grade, picture,  }) => {
+	const [deleteCard] = useDeleteCardMutation();
 	
 	const handleDeleteCard = async () => {
-	
+		try {
+			const response = await deleteCard(id).unwrap();
+			if (response.status) {
+				console.log('Карточка успешно удалена');
+			} else {
+				console.error('Ошибка при удалении карточки');
+			}
+		} catch (error) {
+			console.error('Ошибка при удалении карточки:', error);
+		}
 	};
 	
 	return (

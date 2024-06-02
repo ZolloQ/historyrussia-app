@@ -4,18 +4,18 @@ import styles from './ShowResultUser.module.scss';
 
 const results = [
 	{
-		email: 'user1@example.com',
+		name: 'Антон Петров',
 		result: 8,
 		totalQuestions: 10,
 		percentage: 80,
-		estimation: 'B'
+		estimation: 'Отлично'
 	},
 	{
-		email: 'user2@example.com',
+		name: 'Василий Иванов',
 		result: 5,
 		totalQuestions: 10,
 		percentage: 50,
-		estimation: 'C'
+		estimation: 'удовлетворительно'
 	},
 	// Добавьте больше данных по необходимости
 ];
@@ -27,7 +27,7 @@ const ShowUserResult = () => {
 					<Table className={styles.table}>
 						<TableHead className={styles.tableHead}>
 							<TableRow>
-								<TableCell className={styles.tableHeaderCell}>Email</TableCell>
+								<TableCell className={styles.tableHeaderCell}>Имя</TableCell>
 								<TableCell className={styles.tableHeaderCell}>Правильные ответы</TableCell>
 								<TableCell className={styles.tableHeaderCell}>Всего вопросов</TableCell>
 								<TableCell className={styles.tableHeaderCell}>Процент</TableCell>
@@ -37,7 +37,7 @@ const ShowUserResult = () => {
 						<TableBody>
 							{results.map((row) => (
 								<TableRow>
-									<TableCell className={styles.tableCell}>{row.email}</TableCell>
+									<TableCell className={styles.tableCell}>{row.name}</TableCell>
 									<TableCell className={styles.tableCell}>{row.result}</TableCell>
 									<TableCell className={styles.tableCell}>{row.totalQuestions}</TableCell>
 									<TableCell className={styles.tableCell}>{row.percentage}%</TableCell>

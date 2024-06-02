@@ -4,11 +4,13 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useGetRegistrationMutation } from '../../redux/api/api';
 import styles from '../Login/Login.module.css';
+import Swal from 'sweetalert2';
 
 const Register: React.FC = () => {
 	const [getReg] = useGetRegistrationMutation();
 	const navigate = useNavigate();
 	const [isError, setIsError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	
 	const [formData, setFormData] = useState({
 		uname: '',
@@ -27,20 +29,30 @@ const Register: React.FC = () => {
 		try {
 			const response = await getReg(formData);
 			if ('data' in response && response.data.status) {
-				navigate('/');
+				Swal.fire({
+					icon: 'success',
+					title: 'Успешная регистрация!',
+					text: 'Вы успешно зарегистрировались!',
+					timer: 2000, // автоматически закрыть через 2 секунды
+					showConfirmButton: false, // не показывать кнопку "ОК"
+				}).then(() => {
+					navigate('/auth');
+				});
 			} else if ('error' in response) {
 				setIsError(true);
+				setErrorMessage('Данные пользователя уже существуют');
 			}
 		} catch (error) {
 			console.error(error);
 			setIsError(true);
+			setErrorMessage('Произошла ошибка. Пожалуйста, попробуйте ещё раз.');
 		}
 	};
 	
 	return (
 		<div className={styles.auth}>
 			<div className={styles.login}>
-				<p style={{ color: 'red' }}>{isError && 'Ошибка'}</p>
+				{isError && <p style={{ color: 'red' }}>{errorMessage}</p>}
 				<h1>Регистрация</h1>
 				<form className={styles.form} onSubmit={handleSubmit}>
 					<div className={styles.field}>
@@ -82,7 +94,7 @@ const Register: React.FC = () => {
 							<div className={styles.roleOption}>
 								<input
 									type="radio"
-									id="Admin"
+									id="teacher"
 									value="teacher"
 									name="role"
 									checked={formData.role === 'teacher'}
@@ -94,12 +106,12 @@ const Register: React.FC = () => {
 								<input
 									type="radio"
 									id="user"
-									value="User"
+									value="user"
 									name="role"
-									checked={formData.role === 'User'}
+									checked={formData.role === 'user'}
 									onChange={handleChange}
 								/>
-								<label htmlFor="User">Ученик</label>
+								<label htmlFor="user">Ученик</label>
 							</div>
 						</div>
 					</div>
@@ -117,4 +129,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

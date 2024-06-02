@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { MaterialProps } from '../../components/Material/Material.props.ts'
+import type { IQuiz } from '../../interfaces/Quiz.interfaces.ts'
 
 export const apiSlice = createApi({
 	reducerPath: "auth",
@@ -73,6 +74,19 @@ export const apiSlice = createApi({
 				method: 'GET',
 			}),
 		}),
+		getQuiz: builder.query<IQuiz, string | void>({
+			query: (id) => ({
+				url: `/quiz/${id}`,
+				method: 'GET',
+			}),
+		}),
+		deleteCard: builder.mutation({
+			query: (id) => ({
+				url: "/admin/card/delete",
+				method: "POST",
+				body: { id },
+			}),
+		}),
 	}),
 });
 
@@ -85,5 +99,7 @@ export const {
 	useGetListCardMutation,
 	useGetCardMutation,
 	useGetMaterialQuery,
+	useGetQuizQuery,
+	useDeleteCardMutation,
 } = apiSlice;
 

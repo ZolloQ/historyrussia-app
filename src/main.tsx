@@ -10,6 +10,7 @@ import Login from './pages/Login/Login.tsx'
 import MainPage from './pages/MainPage/MainPage.tsx'
 import QuizPage from './pages/QuizPage/QuizPage.tsx'
 import Register from './pages/Register/Register.tsx'
+import ShowUserResult from './pages/ShowResultUser/ShowResultUser.tsx'
 import { store } from './redux/store.ts'
 
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: '/card/:id/quiz',
     element: <QuizPage />,
+  },
+  {
+    path: '/card/:id/result',
+    element: <ShowUserResult/>
   },
   {
     path: '/auth',
