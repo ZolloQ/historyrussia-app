@@ -87,6 +87,13 @@ export const apiSlice = createApi({
 				body: { id },
 			}),
 		}),
+		postSaveResult: builder.mutation({
+			query: (body) => ({
+				url: "/quiz/save",
+				method: "POST",
+				body: JSON.stringify(body),
+			}),
+		}),
 	}),
 });
 
@@ -101,5 +108,6 @@ export const {
 	useGetMaterialQuery,
 	useGetQuizQuery,
 	useDeleteCardMutation,
+	usePostSaveResultMutation,
 } = apiSlice;
 
