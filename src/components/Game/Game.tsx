@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import Button from '../Button/Button.tsx';
+import Button from '../Button/Button.tsx'
 import styles from './Game.module.scss';
 
-interface QuizResponse {
+interface quizResponce{
 	question: string;
 	correct: number;
 	answers: string;
 }
 
 function Game({ question, onClickVariant, step, totalQuestions }: {
-	question: QuizResponse;
+	question: quizResponce;
 	onClickVariant: (index: number) => void;
 	step: number;
 	totalQuestions: number;
@@ -43,16 +43,16 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 			
 			<h1>{question.question}</h1>
 			<ul>
-				{/* @ts-ignore */}
-				{JSON.parse(question.answers).map((text, index) => (
+				{ /* @ts-ignore */ }
+				{(question.answers).map((text, index) => (
 					<li
 						key={index}
 						onClick={() => handleVariantClick(index)}
 						className={`
-							${styles['variant']}
-							${selectedVariant === index ? (index === question.correct ? styles['correct'] : styles['incorrect']) : ''}
-							${correctAnswer !== null && correctAnswer === index ? styles.correct : ''}
-						`}
+              ${styles['variant']}
+              ${selectedVariant === index ? (index === question.correct ? styles['correct'] : styles['incorrect']) : ''}
+              ${correctAnswer !== null && correctAnswer === index ? styles['correct'] : ''}
+            `}
 					>
 						{text}
 					</li>
