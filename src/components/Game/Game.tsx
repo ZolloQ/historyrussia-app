@@ -35,10 +35,10 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 	};
 	
 	return (
-		<div className={styles.quiz}>
-			<div className={styles.progress}>
-				<div style={{ width: `${Math.round((step * 100) / totalQuestions)}%` }} className={styles.progressInner}></div>
-				<div className={styles.progressLabel}>{step + 1} из {totalQuestions}</div>
+		<div className={styles['quiz']}>
+			<div className={styles['progress']}>
+				<div style={{ width: `${Math.round((step * 100) / totalQuestions)}%` }} className={styles['progress__inner']}></div>
+				<div className={styles['progress__label']}>{step + 1} из {totalQuestions}</div>
 			</div>
 			
 			<h1>{question.question}</h1>
@@ -49,8 +49,8 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 						key={index}
 						onClick={() => handleVariantClick(index)}
 						className={`
-							${styles.variant}
-							${selectedVariant === index ? (index === question.correct ? styles.correct : styles.incorrect) : ''}
+							${styles['variant']}
+							${selectedVariant === index ? (index === question.correct ? styles['correct'] : styles['incorrect']) : ''}
 							${correctAnswer !== null && correctAnswer === index ? styles.correct : ''}
 						`}
 					>
@@ -60,7 +60,7 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 			</ul>
 			
 			{selectedVariant !== null && (
-				<Button onClick={handleNextQuestion} appearence={'big'} className={styles.button}>Следующий вопрос</Button>
+				<Button onClick={handleNextQuestion} appearence={'big'} className={styles['button']}>Следующий вопрос</Button>
 			)}
 		</div>
 	);

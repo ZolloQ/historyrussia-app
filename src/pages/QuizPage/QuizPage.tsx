@@ -41,8 +41,8 @@ const QuizPage: React.FC = () => {
 	const currentQuestion = quizData.quiz;
 	
 	return (
-		<div className={styles.quizPage}>
-			<div className={styles.quiz}>
+		<div className={styles['quiz-page']}>
+			<div className={styles['quiz']}>
 				{step === 0 ? (
 					<Game
 						// @ts-ignore
