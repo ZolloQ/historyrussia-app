@@ -5,6 +5,8 @@ import Input from '../../components/Input/Input';
 import { useGetRegistrationMutation } from '../../redux/api/api';
 import styles from '../Login/Login.module.css';
 import Swal from 'sweetalert2';
+import background from './../../../public/background-image.jpg';
+
 
 const Register: React.FC = () => {
 	const [getReg] = useGetRegistrationMutation();
@@ -50,7 +52,7 @@ const Register: React.FC = () => {
 	};
 	
 	return (
-		<div className={styles.auth}>
+		<div className={styles.auth} style={{ backgroundImage: `url(${background})` }}>
 			<div className={styles.login}>
 				{isError && <p style={{ color: 'red' }}>{errorMessage}</p>}
 				<h1>Регистрация</h1>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import type { CardProps } from '../../components/Card/Card.props.ts';
 import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props.ts';
@@ -11,7 +11,7 @@ import { IQuestion } from '../../interfaces/Quiz.interfaces';
 import { useUploadImageMutation, usePostUploadCardMutation } from '../../redux/api/api';
 
 const CreateCard: React.FC = () => {
-	const {step1, step2} = useSelector((state: { image: any }) => state.image);
+	const { step1, step2 } = useSelector((state: { image: any }) => state.image);
 	const [selectedImageNames, setSelectedImageNames] = useState<string[]>([]);
 	const [selectedImageURLs, setSelectedImageURLs] = useState<string[]>([]);
 	const [step, setStep] = useState<number>(1);
@@ -64,7 +64,6 @@ const CreateCard: React.FC = () => {
 		} catch (error) {
 			console.error('Error saving card:', error);
 		}
-		
 	};
 	
 	const handleSaveImage = async (files: FileList | null) => {
@@ -84,10 +83,10 @@ const CreateCard: React.FC = () => {
 					if (image != null) {
 						console.log(image);
 					}
-					const res =	await uploadImage(formData);
+					const res = await uploadImage(formData);
 					// @ts-ignore
 					dispatch(imageActions.saveImageName({ name: res.data.data.name, step: 1 }));
-					console.log(res)
+					console.log(res);
 				}
 			} catch (error) {
 				console.error('Error uploading image:', error);
@@ -99,8 +98,12 @@ const CreateCard: React.FC = () => {
 		setStep(step + 1);
 	};
 	
+	const handleBack = () => {
+		setStep(step - 1);
+	};
+	
 	const handleChapterAdd = () => {
-		const newChapter: ChapterProps = {subtitle: '', text: '', image: [] };
+		const newChapter: ChapterProps = { subtitle: '', text: '', image: [] };
 		setChapters([...chapters, newChapter]);
 		setChapterImages([...chapterImages, []]);
 		setChapterImageURLs([...chapterImageURLs, []]);
@@ -129,7 +132,7 @@ const CreateCard: React.FC = () => {
 					if (image != null) {
 						console.log(image);
 					}
-					const res =	await uploadImage(formData);
+					const res = await uploadImage(formData);
 					// @ts-ignore
 					dispatch(imageActions.saveImageName({ name: res.data.data.name, step: 2 }));
 					await uploadImage(formData);
@@ -285,9 +288,14 @@ const CreateCard: React.FC = () => {
 					<button onClick={handleChapterAdd} className={styles.button}>
 						Добавить главу
 					</button>
-					<button onClick={handleContinue} className={styles.button}>
-						Продолжить
-					</button>
+					<div className={styles.buttonContainer}>
+						<button onClick={handleBack} className={styles.button}>
+							Назад
+						</button>
+						<button onClick={handleContinue} className={styles.button}>
+							Продолжить
+						</button>
+					</div>
 				</div>
 			)}
 			{step === 3 && (
@@ -332,7 +340,10 @@ const CreateCard: React.FC = () => {
 						</div>
 					))}
 					<div className={styles.separator}></div>
-					<div className={styles.buttonsContainer}>
+					<div className={styles.buttonContainer}>
+						<button onClick={handleBack} className={styles.button}>
+							Назад
+						</button>
 						<button onClick={handleSaveCard} className={styles.button}>
 							Закончить создание карточки
 						</button>

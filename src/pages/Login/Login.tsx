@@ -6,7 +6,7 @@ import { useGetAuthorizationMutation } from '../../redux/api/api';
 import { authActions } from '../../redux/slice/Auth';
 import { useDispatch } from 'react-redux';
 import styles from '../Login/Login.module.css';
-
+import background from './../../../public/background-image.jpg';
 const Login: React.FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 	};
 	
 	return (
-		<div className={styles.auth}>
+		<div className={styles.auth} style={{ backgroundImage: `url(${background})` }} >
 			<div className={styles.login}>
 				<p style={{ color: 'red' }}>{loginError && 'Неправильные учетные данные'}</p>
 				<h1>Вход</h1>
