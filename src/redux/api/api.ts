@@ -88,12 +88,18 @@ export const apiSlice = createApi({
 			}),
 		}),
 		postSaveResult: builder.mutation({
-			query: (body) => ({
+			query: ({ quiz, correct, estimation, percentage }) => ({
 				url: "/quiz/save",
 				method: "POST",
-				body: JSON.stringify(body),
+				body: { correct, estimation, percentage, quiz },
 			}),
 		}),
+		getResult: builder.query({
+			query: (id) => ({
+				url: `/quiz/top/${id}`,
+				method: "GET",
+			}),
+		})
 	}),
 });
 
@@ -109,5 +115,6 @@ export const {
 	useGetQuizQuery,
 	useDeleteCardMutation,
 	usePostSaveResultMutation,
+	useGetResultQuery,
 } = apiSlice;
 

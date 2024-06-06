@@ -35,8 +35,8 @@ const Register: React.FC = () => {
 					icon: 'success',
 					title: 'Успешная регистрация!',
 					text: 'Вы успешно зарегистрировались!',
-					timer: 2000, // автоматически закрыть через 2 секунды
-					showConfirmButton: false, // не показывать кнопку "ОК"
+					timer: 2000, 
+					showConfirmButton: false,
 				}).then(() => {
 					navigate('/auth');
 				});

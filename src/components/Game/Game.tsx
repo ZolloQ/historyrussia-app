@@ -3,7 +3,7 @@ import Button from '../Button/Button.tsx'
 import styles from './Game.module.scss';
 
 interface quizResponce{
-	question: string;
+	title: string;
 	correct: number;
 	answers: string;
 }
@@ -41,9 +41,9 @@ function Game({ question, onClickVariant, step, totalQuestions }: {
 				<div className={styles['progress__label']}>{step + 1} из {totalQuestions}</div>
 			</div>
 			
-			<h1>{question.question}</h1>
+			<h1>{question.title}</h1>
 			<ul>
-				{ /* @ts-ignore */ }
+				{/* @ts-ignore */}
 				{(question.answers).map((text, index) => (
 					<li
 						key={index}
