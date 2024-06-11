@@ -3,23 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useGetRegistrationMutation } from '../../redux/api/api';
+import { Snackbar, Alert } from '@mui/material';
 import styles from '../Login/Login.module.css';
-import Swal from 'sweetalert2';
 import background from './../../../public/background-image.jpg';
-
 
 const Register: React.FC = () => {
 	const [getReg] = useGetRegistrationMutation();
 	const navigate = useNavigate();
 	const [isError, setIsError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-	
 	const [formData, setFormData] = useState({
 		uname: '',
 		email: '',
 		pasw: '',
 		role: '',
 	});
+	
+	const [openSnackbar, setOpenSnackbar] = useState(false);
 	
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -31,15 +31,10 @@ const Register: React.FC = () => {
 		try {
 			const response = await getReg(formData);
 			if ('data' in response && response.data.status) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Успешная регистрация!',
-					text: 'Вы успешно зарегистрировались!',
-					timer: 2000, 
-					showConfirmButton: false,
-				}).then(() => {
+				setOpenSnackbar(true); // Открываем Snackbar при успешной регистрации
+				setTimeout(() => {
 					navigate('/auth');
-				});
+				}, 2000); // Переход через 2 секунды
 			} else if ('error' in response) {
 				setIsError(true);
 				setErrorMessage('Данные пользователя уже существуют');
@@ -49,6 +44,10 @@ const Register: React.FC = () => {
 			setIsError(true);
 			setErrorMessage('Произошла ошибка. Пожалуйста, попробуйте ещё раз.');
 		}
+	};
+	
+	const handleCloseSnackbar = () => {
+		setOpenSnackbar(false);
 	};
 	
 	return (
@@ -126,6 +125,13 @@ const Register: React.FC = () => {
 					<Link to="/auth">Войти</Link>
 				</div>
 			</div>
+			
+			{/* Snackbar для уведомлений */}
+			<Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+				<Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+					Вы успешно зарегистрировались!
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 };

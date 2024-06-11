@@ -22,9 +22,9 @@ function Material(props: { chapters: ChapterProps[] }) {
 						></div>
 						{/* Проверяем наличие файлов изображений */}
 						{images && images.length > 0 && (
-						<>
-							<ImageSlider images={images} />
-						</>
+							<>
+								<ImageSlider images={images} />
+							</>
 						)}
 					</article>
 				)

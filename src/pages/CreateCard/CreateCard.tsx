@@ -11,7 +11,7 @@ import { IQuestion } from '../../interfaces/Quiz.interfaces';
 import { useUploadImageMutation, usePostUploadCardMutation } from '../../redux/api/api';
 
 const CreateCard: React.FC = () => {
-	const { step1, step2 } = useSelector((state: { image: any }) => state.image);
+	const { step1} = useSelector((state: { image: any }) => state.image);
 	const [selectedImageNames, setSelectedImageNames] = useState<string[]>([]);
 	const [selectedImageURLs, setSelectedImageURLs] = useState<string[]>([]);
 	const [step, setStep] = useState<number>(1);
@@ -39,6 +39,12 @@ const CreateCard: React.FC = () => {
 	
 	const handleSaveCard = async () => {
 		try {
+			const chapterData = chapters.map((chapter, index) => ({
+				subtitle: chapter.subtitle,
+				text: chapter.text,
+				images: chapterImages[index], // Ссылки на изображения для каждой главы
+			}));
+			
 			const cardData = {
 				step1: {
 					name: cardProps.name,
@@ -47,11 +53,7 @@ const CreateCard: React.FC = () => {
 				},
 				step2: {
 					title: materialProps.title,
-					chapters: chapters.map(chapter => ({
-						subtitle: chapter.subtitle,
-						text: chapter.text,
-						images: step2,
-					})),
+					chapters: chapterData, // Использование массива chapterData
 				},
 				quiz: quiz.map(q => ({
 					title: q.title,
@@ -112,36 +114,24 @@ const CreateCard: React.FC = () => {
 	const handleImageUpload = async (index: number, files: FileList | null) => {
 		if (files && files.length > 0) {
 			const images = Array.from(files);
-			const updatedChapterImages = [...chapterImages];
-			updatedChapterImages[index] = [...updatedChapterImages[index], ...images];
-			setChapterImages(updatedChapterImages);
-			
-			const imageURLs = images.map(image => URL.createObjectURL(image));
-			const updatedChapterImageURLs = [...chapterImageURLs];
-			updatedChapterImageURLs[index] = [...updatedChapterImageURLs[index], ...imageURLs];
-			setChapterImageURLs(updatedChapterImageURLs);
-			
-			const imageNames = images.map(image => image.name);
-			setSelectedImageNames([...selectedImageNames, ...imageNames]);
+			const tempChapterImages = [...chapterImages]; // Временный массив для хранения изображений
+			const tempSelectedImageNames = [...selectedImageNames]; // Временный массив для хранения имен изображений
 			
 			try {
 				for (let i = 0; i < images.length; i++) {
 					const formData = new FormData();
 					formData.append('image', images[i]);
-					const image = formData.get('image') as { name: string, size: number, type: string };
-					if (image != null) {
-						console.log(image);
-					}
 					const res = await uploadImage(formData);
 					// @ts-ignore
-					dispatch(imageActions.saveImageName({ name: res.data.data.name, step: 2 }));
-					await uploadImage(formData);
+					const imageName = res.data.data.name; // Получение имени изображения из ответа сервера
+					dispatch(imageActions.saveImageName({ name: imageName, step: 2 })); // Сохранение имени изображения в хранилище
+					tempChapterImages[index] = [...tempChapterImages[index], imageName]; // Добавление имени изображения во временный массив
+					tempSelectedImageNames.push(imageName); // Добавление имени изображения во временный массив имен изображений
 				}
 				
-				// Обновить состояние chapters с учетом добавленных изображений
-				const updatedChapters = [...chapters];
-				updatedChapters[index].image = updatedChapterImages[index];
-				setChapters(updatedChapters);
+				// Обновление состояния с реальными именами изображений после загрузки
+				setChapterImages(tempChapterImages);
+				setSelectedImageNames(tempSelectedImageNames);
 			} catch (error) {
 				console.error('Error uploading image:', error);
 			}
