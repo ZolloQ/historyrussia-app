@@ -11,11 +11,11 @@ function Result({ correct, totalQuestions }: { correct: number; totalQuestions: 
 	
 	const getEstimation = (correct: number, totalQuestions: number) => {
 		const percentage = (correct / totalQuestions) * 100;
-		if (percentage >= 90) {
+		if (percentage >= 80) {
 			return 'Отлично';
-		} else if (percentage >= 80) {
+		} else if (percentage >= 60) {
 			return 'Хорошо';
-		} else if (percentage >= 70) {
+		} else if (percentage >= 40) {
 			return 'Удовлетворительно';
 		} else {
 			return 'Неудовлетворительно';

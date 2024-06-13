@@ -6,7 +6,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import styles from './Card.module.scss';
 import type { CardProps } from './Card.props';
 
-const Card: React.FC<CardProps> = ({ id, name, grade, picture }) => {
+interface CardComponentProps extends CardProps {
+	onDelete: (id: number) => void;
+}
+
+const Card: React.FC<CardComponentProps> = ({ id, name, grade, picture, onDelete }) => {
 	const [deleteCard] = useDeleteCardMutation();
 	const [open, setOpen] = useState(false);
 	const isAuth = useSelector((state: { authlocal: { status: boolean } }) => state.authlocal.status);
@@ -24,6 +28,7 @@ const Card: React.FC<CardProps> = ({ id, name, grade, picture }) => {
 		try {
 			await deleteCard(id).unwrap();
 			console.log('Карточка успешно удалена');
+			onDelete(id);  // Вызов функции для удаления карточки из состояния
 		} catch (error) {
 			console.error('Ошибка при удалении карточки:', error);
 		} finally {

@@ -127,7 +127,7 @@ const Register: React.FC = () => {
 			</div>
 			
 			{/* Snackbar для уведомлений */}
-			<Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+			<Snackbar open={openSnackbar} autoHideDuration={1000} onClose={handleCloseSnackbar}>
 				<Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
 					Вы успешно зарегистрировались!
 				</Alert>

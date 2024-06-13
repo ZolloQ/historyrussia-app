@@ -3,15 +3,15 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import type { CardProps } from '../../components/Card/Card.props.ts';
-import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props.ts';
-import { imageActions } from '../../redux/slice/UploadImage.ts';
+import type { CardProps } from '../../components/Card/Card.props';
+import type { ChapterProps, MaterialProps } from '../../components/Material/Material.props';
+import { imageActions } from '../../redux/slice/UploadImage';
 import styles from './CreateCard.module.scss';
 import { IQuestion } from '../../interfaces/Quiz.interfaces';
 import { useUploadImageMutation, usePostUploadCardMutation } from '../../redux/api/api';
 
 const CreateCard: React.FC = () => {
-	const { step1} = useSelector((state: { image: any }) => state.image);
+	const { step1 } = useSelector((state: { image: any }) => state.image);
 	const [selectedImageNames, setSelectedImageNames] = useState<string[]>([]);
 	const [selectedImageURLs, setSelectedImageURLs] = useState<string[]>([]);
 	const [step, setStep] = useState<number>(1);
@@ -114,8 +114,8 @@ const CreateCard: React.FC = () => {
 	const handleImageUpload = async (index: number, files: FileList | null) => {
 		if (files && files.length > 0) {
 			const images = Array.from(files);
-			const tempChapterImages = [...chapterImages]; // Временный массив для хранения изображений
-			const tempSelectedImageNames = [...selectedImageNames]; // Временный массив для хранения имен изображений
+			const tempChapterImages = [...chapterImages];
+			const tempChapterImageURLs = [...chapterImageURLs]; // Temporary array for chapter image URLs
 			
 			try {
 				for (let i = 0; i < images.length; i++) {
@@ -126,12 +126,11 @@ const CreateCard: React.FC = () => {
 					const imageName = res.data.data.name; // Получение имени изображения из ответа сервера
 					dispatch(imageActions.saveImageName({ name: imageName, step: 2 })); // Сохранение имени изображения в хранилище
 					tempChapterImages[index] = [...tempChapterImages[index], imageName]; // Добавление имени изображения во временный массив
-					tempSelectedImageNames.push(imageName); // Добавление имени изображения во временный массив имен изображений
+					tempChapterImageURLs[index] = [...tempChapterImageURLs[index], URL.createObjectURL(images[i])]; // Добавление URL изображения
 				}
 				
-				// Обновление состояния с реальными именами изображений после загрузки
 				setChapterImages(tempChapterImages);
-				setSelectedImageNames(tempSelectedImageNames);
+				setChapterImageURLs(tempChapterImageURLs); // Update state with new image URLs
 			} catch (error) {
 				console.error('Error uploading image:', error);
 			}

@@ -34,6 +34,11 @@ const MainPage = () => {
 		card.name.toLowerCase().includes(searchText.toLowerCase())
 	);
 	
+	// Функция для удаления карточки из состояния
+	const handleDeleteCard = (id: number) => {
+		setCardsData(cardsData.filter(card => card.id !== id));
+	};
+	
 	return (
 		<MainLayout>
 			<Hero />
@@ -53,6 +58,7 @@ const MainPage = () => {
 							name={card.name}
 							grade={card.grade}
 							picture={card.picture}
+							onDelete={handleDeleteCard} // Передаем функцию для удаления
 						/>
 					))}
 				</div>
